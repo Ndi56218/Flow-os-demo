@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowOS — מערכת AI לעסקים קטנים</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800&family=Heebo:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#F5F4F0;
+    --surface:#FFFFFF;
+    --ink:#1C1F26;
+    --ink-soft:#5B6169;
+    --ink-faint:#9CA1A8;
+    --line:#E5E2DA;
+    --line-strong:#D6D2C7;
+    --primary:#1F5C4A;
+    --primary-dark:#153F33;
+    --primary-light:#E5EFEA;
+    --accent:#DD8A3C;
+    --accent-light:#FBEEDD;
+    --danger:#BE4B3C;
+    --danger-light:#FAEAE7;
+    --success:#2E8B57;
+    --success-light:#E7F4ED;
+    --radius-s:6px;
+    --radius-m:10px;
+    --shadow-panel: 0 6px 24px rgba(28,31,38,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:'Heebo',sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,.brand,button,.nav-item,.tab{font-family:'Rubik',sans-serif;}
+  button{font-family:'Heebo',sans-serif;}
+  a{color:inherit;}
+  ::selection{background:var(--primary-light);}
+
+  /* ---------- LOGIN ---------- */
+  #login-screen{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(circle at 85% 12%, rgba(31,92,74,0.10), transparent 45%),
+      radial-gradient(circle at 10% 90%, rgba(221,138,60,0.10), transparent 40%),
+      var(--bg);
+    padding:24px;
+  }
+  .login-card{
+    width:100%;
+    max-width:400px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    padding:40px 34px 34px;
+    box-shadow:var(--shadow-panel);
+  }
+  .login-logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:28px;
+  }
+  .logo-mark{
+    width:34px;height:34px;border-radius:8px;
+    background:linear-gradient(155deg,var(--primary),var(--primary-dark));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:800;font-size:15px;flex-shrink:0;
+  }
+  .logo-text{font-weight:800;font-size:20px;letter-spacing:0.2px;}
+  .logo-sub{font-size:11px;color:var(--ink-faint);margin-top:1px;}
+  .login-card h1{font-size:19px;margin:0 0 6px;font-weight:600;}
+  .login-card p.lead{font-size:13.5px;color:var(--ink-soft);margin:0 0 26px;line-height:1.6;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;font-weight:500;}
+  .field input, .field select, .field textarea{
+    width:100%;
+    padding:11px 13px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius-s);
+    font-size:14px;
+    font-family:'Heebo',sans-serif;
+    color:var(--ink);
+    background:#fff;
+    transition:border-color .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none;
+    border-color:var(--primary);
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:11px 18px;
+    border-radius:var(--radius-s);
+    border:1px solid transparent;
+    font-size:14px;font-weight:600;
+    cursor:pointer;
+    transition:transform .08s ease, background .15s, border-color .15s;
+    white-space:nowrap;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{background:var(--primary);color:#fff;}
+  .btn-primary:hover{background:var(--primary-dark);}
+  .btn-full{width:100%;}
+  .btn-ghost{background:transparent;border-color:var(--line-strong);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--ink-faint);}
+  .btn-sm{padding:7px 12px;font-size:12.5px;}
+  .login-foot{margin-top:18px;text-align:center;font-size:12.5px;color:var(--ink-faint);}
+  .demo-hint{
+    margin-top:22px;
+    background:var(--primary-light);
+    border:1px solid #cfe1d8;
+    color:var(--primary-dark);
+    font-size:12px;
+    padding:9px 12px;
+    border-radius:var(--radius-s);
+    line-height:1.6;
+  }
+
+  /* ---------- APP SHELL ---------- */
+  #app{display:none;min-height:100vh;min-height:100dvh;}
+  #app.active{display:flex;}
+
+  .sidebar{
+    width:230px;
+    flex-shrink:0;
+    background:var(--ink);
+    color:#E9E9E7;
+    display:flex;
+    flex-direction:column;
+    padding:22px 16px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    height:100dvh;
+  }
+  .sidebar .login-logo{margin-bottom:30px;padding:0 4px;}
+  .sidebar .logo-text{color:#fff;}
+  .sidebar .logo-sub{color:#9199A3;}
+  .nav-item{
+    display:flex;align-items:center;gap:11px;
+    padding:10px 12px;
+    border-radius:var(--radius-s);
+    font-size:14px;font-weight:500;
+    color:#C7CBD1;
+    cursor:pointer;
+    margin-bottom:2px;
+    transition:background .15s, color .15s;
+    user-select:none;
+  }
+  .nav-item svg{flex-shrink:0;opacity:.85;}
+  .nav-item:hover{background:rgba(255,255,255,0.06);color:#fff;}
+  .nav-item.active{background:var(--primary);color:#fff;}
+  .nav-item.active svg{opacity:1;}
+  .nav-badge{
+    margin-right:auto;
+    background:var(--accent);
+    color:#211203;
+    font-size:10.5px;font-weight:700;
+    border-radius:20px;
+    padding:1px 7px;
+    min-width:18px;text-align:center;
+  }
+  .sidebar-foot{
+    margin-top:auto;
+    padding-top:16px;
+    border-top:1px solid rgba(255,255,255,0.08);
+    display:flex;align-items:center;gap:10px;
+  }
+  .avatar-round{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:13px;color:#2b1a06;flex-shrink:0;
+  }
+  .sidebar-foot .who{font-size:12.5px;font-weight:600;color:#fff;line-height:1.3;}
+  .sidebar-foot .who span{display:block;font-weight:400;color:#9199A3;font-size:11px;}
+  .logout-link{margin-right:auto;color:#9199A3;cursor:pointer;font-size:12px;}
+  .logout-link:hover{color:#fff;}
+
+  .topbar{
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 18px;
+    background:var(--surface);
+    border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:20;
+  }
+  .hamburger{
+    width:38px;height:38px;border-radius:8px;border:1px solid var(--line-strong);
+    background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .overlay{
+    display:none;position:fixed;inset:0;background:rgba(20,22,26,0.45);z-index:29;
+  }
+  .overlay.show{display:block;}
+
+  main{flex:1;min-width:0;}
+  .screen{display:none;padding:28px 34px 60px;max-width:1180px;}
+  .screen.active{display:block;}
+  .page-head{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    margin-bottom:24px;gap:16px;flex-wrap:wrap;
+  }
+  .page-head h1{font-size:22px;margin:0 0 4px;font-weight:700;}
+  .page-head p{margin:0;color:var(--ink-soft);font-size:13.5px;}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+  }
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 18px;border-bottom:1px solid var(--line);
+  }
+  .card-head h3{margin:0;font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:8px;}
+  .count-pill{
+    background:var(--bg);border:1px solid var(--line);
+    font-size:11.5px;font-weight:600;color:var(--ink-soft);
+    border-radius:20px;padding:1px 9px;
+  }
+
+  /* ---------- DASHBOARD ---------- */
+  .summary-strip{
+    display:flex;gap:18px;padding:18px 20px;margin-bottom:22px;
+    border-radius:var(--radius-m);
+    background:linear-gradient(120deg, var(--primary-dark), var(--primary));
+    color:#fff;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .summary-strip .icon-wrap{
+    width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.15);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .summary-strip .txt{flex:1;min-width:220px;}
+  .summary-strip .txt .lbl{font-size:11.5px;opacity:.8;margin-bottom:3px;font-weight:500;}
+  .summary-strip .txt .val{font-size:14.5px;line-height:1.55;}
+  .summary-stats{display:flex;gap:22px;flex-wrap:wrap;}
+  .summary-stats .stat{text-align:center;}
+  .summary-stats .stat b{display:block;font-size:20px;font-weight:800;}
+  .summary-stats .stat span{font-size:11px;opacity:.8;}
+
+  .grid-2{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;margin-bottom:18px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:18px;}
+
+  .list-row{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .list-row:last-child{border-bottom:none;}
+  .list-row .avatar{
+    width:36px;height:36px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:13px;color:#fff;
+  }
+  .list-row .main{flex:1;min-width:0;}
+  .list-row .main .name{font-size:13.5px;font-weight:600;}
+  .list-row .main .sub{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .tag{
+    font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;flex-shrink:0;
+  }
+  .tag-hot{background:var(--accent-light);color:#9A5A18;}
+  .tag-warm{background:#FDF3E3;color:#8A6A1F;}
+  .tag-wait{background:var(--danger-light);color:var(--danger);}
+  .tag-ok{background:var(--success-light);color:var(--success);}
+  .row-time{font-size:11px;color:var(--ink-faint);flex-shrink:0;}
+
+  .task-row{display:flex;align-items:flex-start;gap:11px;padding:12px 18px;border-bottom:1px solid var(--line);}
+  .task-row:last-child{border-bottom:none;}
+  .task-check{
+    width:19px;height:19px;border-radius:5px;border:1.5px solid var(--line-strong);
+    flex-shrink:0;margin-top:1px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .15s,border-color .15s;
+  }
+  .task-check.done{background:var(--primary);border-color:var(--primary);}
+  .task-row .t-main{flex:1;}
+  .task-row .t-main .t-title{font-size:13.5px;font-weight:500;}
+  .task-row.done .t-title{color:var(--ink-faint);text-decoration:line-through;}
+  .task-row .t-main .t-sub{font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+
+  /* ---------- CONVERSATIONS ---------- */
+  .conv-layout{display:grid;grid-template-columns:360px 1fr;gap:18px;height:calc(100vh - 160px);min-height:520px;}
+  .conv-list{overflow-y:auto;}
+  .conv-item{
+    display:flex;gap:11px;padding:14px 16px;border-bottom:1px solid var(--line);
+    cursor:pointer;transition:background .12s;position:relative;
+  }
+  .conv-item:hover{background:var(--bg);}
+  .conv-item.active{background:var(--primary-light);}
+  .conv-item.active::before{
+    content:"";position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--primary);
+  }
+  .conv-item .avatar{width:38px;height:38px;font-size:13px;}
+  .conv-item .main{flex:1;min-width:0;}
+  .conv-item .top-line{display:flex;justify-content:space-between;gap:6px;}
+  .conv-item .cname{font-size:13.5px;font-weight:700;}
+  .conv-item .ctime{font-size:10.5px;color:var(--ink-faint);flex-shrink:0;}
+  .conv-item .snippet{font-size:12px;color:var(--ink-soft);margin-top:3px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .conv-item .ai-line{
+    display:flex;align-items:center;gap:5px;
+    font-size:11px;color:var(--primary-dark);margin-top:6px;
+    background:var(--primary-light);padding:4px 8px;border-radius:6px;
+  }
+  .channel-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+  .conv-detail{display:flex;flex-direction:column;overflow:hidden;}
+  .conv-detail-head{
+    display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);
+  }
+  .conv-detail-head .name{font-size:15px;font-weight:700;}
+  .conv-detail-head .meta{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .conv-summary-box{
+    margin:14px 20px 0;padding:12px 14px;
+    background:var(--primary-light);border:1px solid #d3e4dc;border-radius:var(--radius-s);
+    font-size:12.5px;color:var(--primary-dark);line-height:1.65;
+  }
+  .conv-summary-box b{display:block;font-size:11.5px;margin-bottom:3px;color:var(--primary-dark);}
+  .conv-messages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px;}
+  .msg{max-width:72%;padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.55;}
+  .msg-in{background:var(--bg);border:1px solid var(--line);align-self:flex-start;border-top-right-radius:3px;}
+  .msg-out{background:var(--primary);color:#fff;align-self:flex-end;border-top-left-radius:3px;}
+  .msg-time{font-size:10px;opacity:.65;margin-top:4px;display:block;}
+  .conv-actions{
+    padding:14px 20px;border-top:1px solid var(--line);
+    display:flex;gap:8px;flex-wrap:wrap;
+  }
+  .empty-state{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:var(--ink-faint);font-size:13px;gap:8px;
+  }
+
+  /* ---------- CONNECTIONS ---------- */
+  .conn-row{
+    display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid var(--line);
+  }
+  .conn-row:last-child{border-bottom:none;}
+  .conn-icon{
+    width:42px;height:42px;border-radius:10px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+  }
+  .conn-row .main{flex:1;}
+  .conn-row .main .cname{font-size:14px;font-weight:700;}
+  .conn-row .main .cdesc{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .status-pill{
+    display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+    padding:5px 12px;border-radius:20px;flex-shrink:0;
+  }
+  .status-pill .dot{width:7px;height:7px;border-radius:50%;}
+  .status-on{background:var(--success-light);color:var(--success);}
+  .status-on .dot{background:var(--success);}
+  .status-off{background:var(--bg);color:var(--ink-faint);border:1px solid var(--line-strong);}
+  .status-off .dot{background:var(--ink-faint);}
+
+  /* ---------- SETTINGS ---------- */
+  .settings-section{padding:20px;border-bottom:1px solid var(--line);}
+  .settings-section:last-child{border-bottom:none;}
+  .settings-section h4{margin:0 0 4px;font-size:14px;font-weight:700;}
+  .settings-section .hint{font-size:12px;color:var(--ink-soft);margin:0 0 16px;}
+  .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .hours-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .hours-row .day{width:64px;font-size:13px;font-weight:600;flex-shrink:0;}
+  .hours-row input[type=time]{width:110px;}
+  .hours-row .to{color:var(--ink-faint);font-size:12px;}
+  .hours-row .closed-toggle{margin-right:auto;font-size:12px;display:flex;align-items:center;gap:6px;color:var(--ink-soft);cursor:pointer;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    background:var(--bg);border:1px solid var(--line-strong);
+    padding:6px 12px;border-radius:20px;font-size:12.5px;
+    display:flex;align-items:center;gap:7px;
+  }
+  .chip .x{cursor:pointer;color:var(--ink-faint);font-weight:700;}
+  .chip .x:hover{color:var(--danger);}
+  .add-chip-form{display:flex;gap:8px;margin-top:12px;}
+  .add-chip-form input{flex:1;}
+  .settings-foot{
+    display:flex;justify-content:flex-end;gap:10px;padding:16px 20px;
+    position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line);
+    border-radius:0 0 var(--radius-m) var(--radius-m);
+  }
+
+  /* ---------- HISTORY ---------- */
+  .tabs{display:flex;gap:6px;margin-bottom:18px;border-bottom:1px solid var(--line);}
+  .tab{
+    padding:9px 4px;margin-left:22px;font-size:13.5px;font-weight:600;color:var(--ink-soft);
+    cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;
+  }
+  .tab.active{color:var(--primary-dark);border-color:var(--primary);}
+  .hist-day-label{font-size:12px;font-weight:700;color:var(--ink-faint);margin:20px 0 8px;padding-right:2px;}
+  .hist-day-label:first-child{margin-top:0;}
+  .hist-row{
+    display:flex;align-items:flex-start;gap:12px;padding:11px 4px;border-bottom:1px solid var(--line);
+  }
+  .hist-icon{
+    width:30px;height:30px;border-radius:8px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hist-row .h-main{flex:1;}
+  .hist-row .h-title{font-size:13px;}
+  .hist-row .h-title b{font-weight:600;}
+  .hist-row .h-time{font-size:11px;color:var(--ink-faint);flex-shrink:0;margin-top:2px;}
+  .hist-list-card{padding:6px 16px 16px;}
+
+  /* ---------- TOAST ---------- */
+  #toast{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:11px 20px;border-radius:30px;
+    font-size:13px;font-weight:500;opacity:0;pointer-events:none;
+    transition:opacity .25s, transform .25s;z-index:100;
+    display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.25);
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .sidebar{position:fixed;top:0;bottom:0;right:0;z-index:30;transform:translateX(100%);
+      transition:transform .25s ease;box-shadow:-6px 0 24px rgba(0,0,0,0.2);height:100vh;height:100dvh;}
+    .sidebar.open{transform:translateX(0);}
+    .topbar{display:flex;}
+    .screen{padding:20px 16px 60px;}
+    .grid-2,.grid-3{grid-template-columns:1fr;}
+    .conv-layout{grid-template-columns:1fr;height:auto;}
+    .conv-list{max-height:340px;}
+    .conv-detail{min-height:420px;}
+    .field-grid{grid-template-columns:1fr;}
+    .conv-detail.mobile-hide{display:none;}
+    .conv-list.mobile-hide{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ================= LOGIN SCREEN ================= -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="logo-mark">F</div>
+      <div>
+        <div class="logo-text">FlowOS</div>
+        <div class="logo-sub">The Operating System for Small Business</div>
+      </div>
+    </div>
+    <h1>ברוכים הבאים בחזרה</h1>
+    <p class="lead">התחברו כדי לראות את כל התקשורת עם הלקוחות שלכם במקום אחד.</p>
+    <form id="login-form">
+      <div class="field">
+        <label>אימייל</label>
+        <input type="email" id="login-email" value="yehuda@my-business.co.il" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+      </div>
+      <div class="field">
+        <label>סיסמה</label>
+        <input type="password" id="login-password" value="demo-password" autocomplete="off">
+      </div>
+      <button type="button" id="login-btn" class="btn btn-primary btn-full">התחברות</button>
+    </form>
+    <div class="login-foot">אין לכם חשבון? <a style="color:var(--primary);font-weight:600;">הרשמה לגרסת ניסיון</a></div>
+    <div class="demo-hint">זהו דמו לתצוגה בלבד. כל הנתונים באפליקציה הם נתוני דוגמה, וההתחברות אינה בודקת סיסמה אמיתית.</div>
+  </div>
+</div>
+
+<!-- ================= APP SHELL ================= -->
+<div id="app">
+  <div class="overlay" id="overlay" onclick="toggleSidebar(false)"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="login-logo">
+      <div class="logo-mark">F</div>
+      <div>
+        <div class="logo-text">FlowOS</div>
+        <div class="logo-sub">יהודה כהן — מספרה</div>
+      </div>
+    </div>
+
+    <div class="nav-item active" data-screen="dashboard" onclick="navigate('dashboard')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      דשבורד
+    </div>
+    <div class="nav-item" data-screen="conversations" onclick="navigate('conversations')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 1 1-3.3-6.5"/><path d="M21 3v6h-6"/></svg>
+      שיחות
+      <span class="nav-badge" id="nav-unread">3</span>
+    </div>
+    <div class="nav-item" data-screen="connections" onclick="navigate('connections')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 12a3.5 3.5 0 0 1 0-5l2-2a3.5 3.5 0 0 1 5 5l-1 1"/><path d="M15.5 12a3.5 3.5 0 0 1 0 5l-2 2a3.5 3.5 0 0 1-5-5l1-1"/></svg>
+      חיבורים
+    </div>
+    <div class="nav-item" data-screen="history" onclick="navigate('history')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>
+      היסטוריה
+    </div>
+    <div class="nav-item" data-screen="settings" onclick="navigate('settings')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.36a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.64 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.64 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.36 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
+      הגדרות
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="avatar-round">יכ</div>
+      <div class="who">יהודה כהן<span>בעל העסק</span></div>
+      <div class="logout-link" onclick="doLogout()">יציאה</div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div class="hamburger" onclick="toggleSidebar(true)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </div>
+      <div class="login-logo" style="margin:0;">
+        <div class="logo-mark" style="width:28px;height:28px;font-size:12px;">F</div>
+        <div class="logo-text" style="font-size:16px;">FlowOS</div>
+      </div>
+      <div class="avatar-round" style="width:30px;height:30px;font-size:11px;">יכ</div>
+    </div>
+
+    <!-- ---------- DASHBOARD ---------- -->
+    <section class="screen active" id="screen-dashboard">
+      <div class="page-head">
+        <div>
+          <h1>בוקר טוב, יהודה 👋</h1>
+          <p>הנה מה שקורה בעסק שלך היום, יום רביעי 16 בספטמבר</p>
+        </div>
+      </div>
+
+      <div class="summary-strip">
+        <div class="icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7z"/></svg>
+        </div>
+        <div class="txt">
+          <div class="lbl">סיכום יומי מבוסס AI</div>
+          <div class="val">התקבלו 12 הודעות חדשות מ־5 לקוחות. 2 לידים חמים ממתינים מעל שעה — כדאי לחזור אליהם קודם. יום שקט יחסית בתורים, יש חלון פנוי ב־16:00.</div>
+        </div>
+        <div class="summary-stats">
+          <div class="stat"><b>12</b><span>הודעות חדשות</span></div>
+          <div class="stat"><b>4</b><span>לידים חדשים</span></div>
+          <div class="stat"><b>6</b><span>תורים היום</span></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <h3>🔥 לידים חמים</h3>
+            <span class="count-pill" id="leads-count">4 פתוחים</span>
+          </div>
+          <div id="leads-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h3>⏳ לקוחות שממתינים לתגובה</h3>
+            <span class="count-pill" id="waiting-count">3 ממתינים</span>
+          </div>
+          <div id="waiting-list"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3>✅ משימות מומלצות מ־AI</h3>
+          <span class="count-pill" id="tasks-count">5 משימות</span>
+        </div>
+        <div id="tasks-list"></div>
+      </div>
+    </section>
+
+    <!-- ---------- CONVERSATIONS ---------- -->
+    <section class="screen" id="screen-conversations">
+      <div class="page-head">
+        <div>
+          <h1>שיחות</h1>
+          <p>כל הלקוחות מכל הערוצים, במקום אחד</p>
+        </div>
+      </div>
+      <div class="conv-layout">
+        <div class="card conv-list" id="conv-list"></div>
+        <div class="card conv-detail" id="conv-detail">
+          <div class="empty-state">
+            <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 12a8 8 0 1 1-3.3-6.5"/></svg>
+            בחר לקוח מהרשימה כדי לצפות בשיחה
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- CONNECTIONS ---------- -->
+    <section class="screen" id="screen-connections">
+      <div class="page-head">
+        <div>
+          <h1>חיבורים</h1>
+          <p>חברו את ערוצי התקשורת שלכם כדי ש־FlowOS יוכל לרכז את כל השיחות</p>
+        </div>
+      </div>
+      <div class="card" id="conn-list"></div>
+    </section>
+
+    <!-- ---------- SETTINGS ---------- -->
+    <section class="screen" id="screen-settings">
+      <div class="page-head">
+        <div>
+          <h1>הגדרות</h1>
+          <p>פרטי העסק והדרך שבה ה־AI מייצג אתכם מול לקוחות</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="settings-section">
+          <h4>פרטי העסק</h4>
+          <p class="hint">המידע הבסיסי שה־AI משתמש בו כשהוא עונה ללקוחות</p>
+          <div class="field-grid">
+            <div class="field"><label>שם העסק</label><input type="text" value="מספרת יהודה כהן"></div>
+            <div class="field"><label>טלפון</label><input type="text" value="054-4444717"></div>
+            <div class="field"><label>כתובת</label><input type="text" value="רחוב הרצל 18, פתח תקווה"></div>
+            <div class="field"><label>תחום עיסוק</label><input type="text" value="מספרה וטיפוח לגברים ונשים"></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>שעות פעילות</h4>
+          <p class="hint">השעות שבהן ה־AI יציע תורים ללקוחות</p>
+          <div id="hours-list"></div>
+        </div>
+
+        <div class="settings-section">
+          <h4>שירותים</h4>
+          <p class="hint">הרשימה שה־AI מציע כשלקוח שואל "מה יש לכם"</p>
+          <div class="chip-row" id="services-list"></div>
+          <div class="add-chip-form">
+            <input type="text" id="new-service-input" placeholder="הוספת שירות חדש...">
+            <button class="btn btn-ghost btn-sm" onclick="addService()">הוספה</button>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>הוראות ל־AI</h4>
+          <p class="hint">כללי התנהגות שה־AI יעקוב אחריהם בכל שיחה עם לקוח</p>
+          <textarea rows="5" style="width:100%;">ענה בעברית, בנימוס ובקצרה. הצע תורים פנויים בהתאם ללוח הזמנים. אל תבטיח הנחות או מחירים ללא אישור שלי. אם לקוח מתלונן או כועס — הפנה אליי ישירות ואל תמשיך להשיב לבד.</textarea>
+        </div>
+
+        <div class="settings-foot">
+          <button class="btn btn-ghost">ביטול</button>
+          <button class="btn btn-primary" onclick="saveSettings()">שמירת שינויים</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- HISTORY ---------- -->
+    <section class="screen" id="screen-history">
+      <div class="page-head">
+        <div>
+          <h1>היסטוריה</h1>
+          <p>כל מה ש־FlowOS עשה עבורכם</p>
+        </div>
+      </div>
+      <div class="tabs" id="hist-tabs">
+        <div class="tab active" data-tab="all">הכל</div>
+        <div class="tab" data-tab="ai">פעולות AI</div>
+        <div class="tab" data-tab="sent">הודעות שנשלחו</div>
+        <div class="tab" data-tab="activity">לוג פעילות</div>
+      </div>
+      <div class="card hist-list-card" id="history-list"></div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ================= DATA ================= */
+const leads = [
+  {name:"נועה שגיא", src:"וואטסאפ", level:"חם", since:"לפני 12 דק׳", color:"#DD8A3C"},
+  {name:"אבי רון", src:"אינסטגרם", level:"חם", since:"לפני 40 דק׳", color:"#C24F7A"},
+  {name:"שירה לוי", src:"פייסבוק", level:"בינוני", since:"לפני שעה", color:"#3E6CA8"},
+  {name:"דניאל עמר", src:"וואטסאפ", level:"בינוני", since:"לפני שעתיים", color:"#DD8A3C"},
+];
+
+const waiting = [
+  {name:"רותם ביטון", channel:"וואטסאפ", wait:"52 דק׳", msg:"אז יש תור מחר בבוקר?"},
+  {name:"משה אדרי", channel:"אימייל", wait:"1.5 שעות", msg:"רציתי לבדוק לגבי החזר על הטיפול"},
+  {name:"טל כרמי", channel:"פייסבוק", wait:"3 שעות", msg:"אתם פתוחים ביום שישי?"},
+];
+
+let tasks = [
+  {title:"לשלוח תזכורת תור לדנה לוי (מחר 10:00)", sub:"נוצר אוטומטית ע\"י AI", done:false},
+  {title:"לאשר הזמנה חדשה של יוסי מזרחי", sub:"ממתין לאישורך", done:false},
+  {title:"לחזור לנועה שגיא — ליד חם מוואטסאפ", sub:"ממתינה 12 דקות", done:false},
+  {title:"לעדכן שעות פעילות לחג הקרוב", sub:"הוצע ע\"י AI על סמך שאלות לקוחות", done:true},
+  {title:"לבדוק תלונה של לקוח על איחור", sub:"הועבר אלייך ישירות ע\"י ה-AI", done:false},
+];
+
+const conversations = [
+  {
+    id:1, name:"נועה שגיא", channel:"whatsapp", channelColor:"#25D366", time:"12:40",
+    status:"ליד חם", statusClass:"tag-hot",
+    snippet:"שלום! ראיתי אתכם באינסטגרם, אשמח לדעת אם יש תור לתספורת השבוע",
+    aiSummary:"לקוחה חדשה, מתעניינת בתספורת + פן. לא לקוחה קיימת. מומלץ להציע תור בימים הקרובים ולשלוח מחירון.",
+    messages:[
+      {from:"in", text:"שלום! ראיתי אתכם באינסטגרם, אשמח לדעת אם יש תור לתספורת השבוע", time:"12:31"},
+      {from:"out", text:"היי נועה, תודה שפנית! יש לנו פניות ביום חמישי 16:00 או שישי 10:00, מה מתאים לך?", time:"12:33"},
+      {from:"in", text:"שישי 10:00 מעולה, אפשר גם פן?", time:"12:40"},
+    ],
+    actions:["קביעת תור", "שליחת מחירון", "סימון כטופל"],
+  },
+  {
+    id:2, name:"רותם ביטון", channel:"whatsapp", channelColor:"#25D366", time:"11:52",
+    status:"ממתין", statusClass:"tag-wait",
+    snippet:"אז יש תור מחר בבוקר?",
+    aiSummary:"לקוח קיים (ביקר לאחרונה לפני חודש). שואל על תור למחר בבוקר. יש חלון פנוי ב-09:30.",
+    messages:[
+      {from:"in", text:"היי, אז יש תור מחר בבוקר?", time:"11:52"},
+    ],
+    actions:["הצעת תור 09:30", "בדיקת יומן", "סימון כטופל"],
+  },
+  {
+    id:3, name:"אבי רון", channel:"instagram", channelColor:"#C24F7A", time:"11:10",
+    status:"ליד חם", statusClass:"tag-hot",
+    snippet:"כמה עולה תספורת + זקן?",
+    aiSummary:"שאלת מחיר פשוטה. מומלץ לענות עם המחירון ולנסות לתאם תור מיידית.",
+    messages:[
+      {from:"in", text:"היי, כמה עולה תספורת + זקן?", time:"11:10"},
+    ],
+    actions:["שליחת מחירון", "קביעת תור", "סימון כטופל"],
+  },
+  {
+    id:4, name:"משה אדרי", channel:"email", channelColor:"#3E6CA8", time:"10:05",
+    status:"ממתין", statusClass:"tag-wait",
+    snippet:"רציתי לבדוק לגבי החזר על הטיפול",
+    aiSummary:"בקשה רגישה בנושא כספי. בהתאם להוראות שלך, ה-AI לא השיב וסימן לטיפול אישי.",
+    messages:[
+      {from:"in", text:"שלום, הייתי אצלכם שבוע שעבר ולא הייתי מרוצה מהתוצאה. רציתי לבדוק לגבי החזר.", time:"10:05"},
+    ],
+    actions:["מענה אישי", "הצעת תור חוזר", "סימון כטופל"],
+  },
+  {
+    id:5, name:"שירה לוי", channel:"facebook", channelColor:"#1877F2", time:"09:40",
+    status:"טופל", statusClass:"tag-ok",
+    snippet:"תודה רבה, נתראה ביום שני!",
+    aiSummary:"תור אושר בהצלחה ע\"י ה-AI ליום שני 11:00. הלקוחה אישרה הגעה.",
+    messages:[
+      {from:"in", text:"אפשר תור ליום שני?", time:"09:20"},
+      {from:"out", text:"בטח, יש פניה ב-11:00, מתאים?", time:"09:25"},
+      {from:"in", text:"תודה רבה, נתראה ביום שני!", time:"09:40"},
+    ],
+    actions:["שליחת תזכורת", "פתיחת כרטיס לקוח"],
+  },
+  {
+    id:6, name:"דניאל עמר", channel:"whatsapp", channelColor:"#25D366", time:"אתמול",
+    status:"טופל", statusClass:"tag-ok",
+    snippet:"מעולה, מגיע ב-17:00",
+    aiSummary:"תור קבוע חודשי. אושר ללא צורך בהתערבות שלך.",
+    messages:[
+      {from:"in", text:"היי, אותו תור כמו כל חודש?", time:"אתמול 18:02"},
+      {from:"out", text:"כן בטח! 17:00 ביום שלישי הבא?", time:"אתמול 18:05"},
+      {from:"in", text:"מעולה, מגיע ב-17:00", time:"אתמול 18:07"},
+    ],
+    actions:["שליחת תזכורת", "פתיחת כרטיס לקוח"],
+  },
+];
+
+let connections = [
+  {name:"WhatsApp Business", desc:"קבלת ומענה על הודעות לקוחות", icon:"💬", color:"#25D366", connected:true, syncedAt:"לפני 3 דקות"},
+  {name:"Gmail", desc:"ריכוז פניות שמגיעות במייל", icon:"✉️", color:"#EA4335", connected:true, syncedAt:"לפני 20 דקות"},
+  {name:"Facebook", desc:"הודעות מהעמוד העסקי", icon:"👍", color:"#1877F2", connected:false, syncedAt:null},
+  {name:"Instagram", desc:"הודעות ותגובות מהעמוד העסקי", icon:"📷", color:"#C24F7A", connected:true, syncedAt:"לפני שעה"},
+  {name:"Google Calendar", desc:"סנכרון תורים ופגישות", icon:"📅", color:"#4285F4", connected:false, syncedAt:null},
+];
+
+let services = ["תספורת גברים", "תספורת נשים", "צביעה", "החלקה", "טיפול פנים"];
+
+const hours = [
+  {day:"ראשון", from:"09:00", to:"19:00", closed:false},
+  {day:"שני", from:"09:00", to:"19:00", closed:false},
+  {day:"שלישי", from:"09:00", to:"19:00", closed:false},
+  {day:"רביעי", from:"09:00", to:"19:00", closed:false},
+  {day:"חמישי", from:"09:00", to:"20:00", closed:false},
+  {day:"שישי", from:"09:00", to:"14:00", closed:false},
+  {day:"שבת", from:"", to:"", closed:true},
+];
+
+const history = [
+  {type:"ai", day:"היום", icon:"🤖", color:"var(--primary)", title:"<b>AI</b> שלח תזכורת תור ל־שירה לוי", time:"08:15"},
+  {type:"sent", day:"היום", icon:"📤", color:"#3E6CA8", title:"נשלחה הודעת וואטסאפ ל־רותם ביטון", time:"11:52"},
+  {type:"ai", day:"היום", icon:"🤖", color:"var(--primary)", title:"<b>AI</b> סיווג ליד חדש (נועה שגיא) כ\"חם\"", time:"12:31"},
+  {type:"activity", day:"היום", icon:"🔌", color:"var(--ink-faint)", title:"החיבור ל־Instagram סונכרן בהצלחה", time:"12:00"},
+  {type:"sent", day:"היום", icon:"📤", color:"#3E6CA8", title:"נשלח מחירון ל־אבי רון באינסטגרם", time:"11:14"},
+  {type:"ai", day:"אתמול", icon:"🤖", color:"var(--primary)", title:"<b>AI</b> אישר תור חוזר ל־דניאל עמר", time:"18:05"},
+  {type:"activity", day:"אתמול", icon:"👤", color:"var(--ink-faint)", title:"התחברת למערכת מהדפדפן", time:"08:02"},
+  {type:"ai", day:"אתמול", icon:"🤖", color:"var(--primary)", title:"<b>AI</b> העביר אלייך תלונת לקוח לטיפול אישי", time:"15:41"},
+  {type:"sent", day:"לפני יומיים", icon:"📤", color:"#3E6CA8", title:"נשלח מייל תזכורת ל־משה אדרי", time:"09:30"},
+  {type:"activity", day:"לפני יומיים", icon:"🔌", color:"var(--ink-faint)", title:"חובר חשבון Gmail חדש", time:"09:00"},
+];
+
+/* ================= NAV / SCREENS ================= */
+function doLogin(e){
+  if(e && e.preventDefault) e.preventDefault();
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').classList.add('active');
+  return false;
+}
+
+/* Bind login interactions without depending on native HTML form submission,
+   since some mobile browsers (notably Safari on iPad/iPhone when a page is
+   opened as a local file) can be inconsistent about firing the "submit"
+   event or about built-in field validation. Binding directly to the button
+   (and to Enter/Return on the fields) works reliably everywhere. */
+function initLogin(){
+  const btn = document.getElementById('login-btn');
+  const emailField = document.getElementById('login-email');
+  const passwordField = document.getElementById('login-password');
+  if(btn){
+    btn.addEventListener('click', doLogin);
+    btn.addEventListener('touchend', function(e){ e.preventDefault(); doLogin(e); }, {passive:false});
+  }
+  [emailField, passwordField].forEach(function(field){
+    if(!field) return;
+    field.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ doLogin(e); }
+    });
+  });
+}
+function doLogout(){
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('login-screen').style.display='flex';
+}
+function navigate(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.screen===name));
+  toggleSidebar(false);
+  window.scrollTo(0,0);
+}
+function toggleSidebar(open){
+  document.getElementById('sidebar').classList.toggle('open', open);
+  document.getElementById('overlay').classList.toggle('show', open);
+}
+
+/* ================= TOAST ================= */
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+/* ================= DASHBOARD RENDER ================= */
+function initials(name){ return name.trim().split(' ').map(w=>w[0]).slice(0,2).join(''); }
+function avatarColor(str){
+  const colors=['#1F5C4A','#DD8A3C','#3E6CA8','#C24F7A','#7A5CC2','#2E8B57'];
+  let h=0; for(const c of str) h+=c.charCodeAt(0);
+  return colors[h%colors.length];
+}
+
+function renderLeads(){
+  const el=document.getElementById('leads-list'); el.innerHTML='';
+  leads.forEach(l=>{
+    el.innerHTML+=`<div class="list-row">
+      <div class="avatar" style="background:${avatarColor(l.name)}">${initials(l.name)}</div>
+      <div class="main"><div class="name">${l.name}</div><div class="sub">${l.src} · ${l.since}</div></div>
+      <span class="tag ${l.level==='חם'?'tag-hot':'tag-warm'}">${l.level}</span>
+    </div>`;
+  });
+  document.getElementById('leads-count').textContent = leads.length+' פתוחים';
+}
+function renderWaiting(){
+  const el=document.getElementById('waiting-list'); el.innerHTML='';
+  waiting.forEach(w=>{
+    el.innerHTML+=`<div class="list-row">
+      <div class="avatar" style="background:${avatarColor(w.name)}">${initials(w.name)}</div>
+      <div class="main"><div class="name">${w.name}</div><div class="sub">${w.msg}</div></div>
+      <span class="row-time">${w.wait}</span>
+    </div>`;
+  });
+  document.getElementById('waiting-count').textContent = waiting.length+' ממתינים';
+}
+function renderTasks(){
+  const el=document.getElementById('tasks-list'); el.innerHTML='';
+  tasks.forEach((t,i)=>{
+    el.innerHTML+=`<div class="task-row ${t.done?'done':''}">
+      <div class="task-check ${t.done?'done':''}" onclick="toggleTask(${i})">
+        ${t.done?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>':''}
+      </div>
+      <div class="t-main"><div class="t-title">${t.title}</div><div class="t-sub">${t.sub}</div></div>
+    </div>`;
+  });
+  const open = tasks.filter(t=>!t.done).length;
+  document.getElementById('tasks-count').textContent = open+' פתוחות';
+}
+function toggleTask(i){
+  tasks[i].done = !tasks[i].done;
+  renderTasks();
+  if(tasks[i].done) showToast('המשימה סומנה כבוצעה ✓');
+}
+
+/* ================= CONVERSATIONS RENDER ================= */
+let activeConvId = null;
+function renderConvList(){
+  const el=document.getElementById('conv-list'); el.innerHTML='';
+  conversations.forEach(c=>{
+    el.innerHTML+=`<div class="conv-item ${activeConvId===c.id?'active':''}" onclick="openConversation(${c.id})">
+      <div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
+      <div class="main">
+        <div class="top-line"><span class="cname">${c.name}</span><span class="ctime">${c.time}</span></div>
+        <div class="snippet">${c.snippet}</div>
+        <div class="ai-line">✨ ${c.aiSummary.length>60? c.aiSummary.slice(0,60)+'…': c.aiSummary}</div>
+      </div>
+    </div>`;
+  });
+}
+function openConversation(id){
+  activeConvId=id;
+  renderConvList();
+  const c = conversations.find(x=>x.id===id);
+  const el = document.getElementById('conv-detail');
+  el.innerHTML = `
+    <div class="conv-detail-head">
+      <div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
+      <div>
+        <div class="name">${c.name}</div>
+        <div class="meta"><span class="tag ${c.statusClass}">${c.status}</span> &nbsp;·&nbsp; ${c.channel==='whatsapp'?'וואטסאפ':c.channel==='instagram'?'אינסטגרם':c.channel==='facebook'?'פייסבוק':'אימייל'}</div>
+      </div>
+    </div>
+    <div class="conv-summary-box"><b>✨ תקציר AI</b>${c.aiSummary}</div>
+    <div class="conv-messages" id="conv-messages"></div>
+    <div class="conv-actions" id="conv-actions"></div>
+  `;
+  const msgsEl = document.getElementById('conv-messages');
+  c.messages.forEach(m=>{
+    msgsEl.innerHTML += `<div class="msg ${m.from==='in'?'msg-in':'msg-out'}">${m.text}<span class="msg-time">${m.time}</span></div>`;
+  });
+  const actEl = document.getElementById('conv-actions');
+  c.actions.forEach(a=>{
+    actEl.innerHTML += `<button class="btn btn-ghost btn-sm" onclick="runAction('${a.replace(/'/g,"")}','${c.name.replace(/'/g,"")}')">${a}</button>`;
+  });
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+
+  if(window.innerWidth<=980){
+    document.getElementById('conv-list').classList.add('mobile-hide');
+    el.classList.remove('mobile-hide');
+    const backBtn = document.createElement('div');
+    backBtn.className='btn btn-ghost btn-sm';
+    backBtn.style.margin='12px 20px 0';
+    backBtn.style.width='fit-content';
+    backBtn.textContent='← חזרה לרשימה';
+    backBtn.onclick = ()=>{ document.getElementById('conv-list').classList.remove('mobile-hide'); el.classList.add('mobile-hide'); };
+    el.prepend(backBtn);
+  }
+}
+function runAction(action, name){
+  showToast(`הפעולה "${action}" בוצעה עבור ${name} ✓`);
+}
+
+/* ================= CONNECTIONS RENDER ================= */
+function renderConnections(){
+  const el=document.getElementById('conn-list'); el.innerHTML='';
+  connections.forEach((c,i)=>{
+    el.innerHTML+=`<div class="conn-row">
+      <div class="conn-icon" style="background:${c.color}">${c.icon}</div>
+      <div class="main">
+        <div class="cname">${c.name}</div>
+        <div class="cdesc">${c.connected? 'מחובר · סונכרן '+c.syncedAt : c.desc}</div>
+      </div>
+      <div class="status-pill ${c.connected?'status-on':'status-off'}">
+        <span class="dot"></span>${c.connected?'מחובר':'לא מחובר'}
+      </div>
+      <button class="btn ${c.connected?'btn-ghost':'btn-primary'} btn-sm" onclick="toggleConnection(${i})">
+        ${c.connected?'ניתוק':'חיבור'}
+      </button>
+    </div>`;
+  });
+}
+function toggleConnection(i){
+  connections[i].connected = !connections[i].connected;
+  connections[i].syncedAt = connections[i].connected ? 'הרגע' : null;
+  renderConnections();
+  showToast(connections[i].connected ? `${connections[i].name} חובר בהצלחה ✓` : `${connections[i].name} נותק`);
+}
+
+/* ================= SETTINGS RENDER ================= */
+function renderHours(){
+  const el=document.getElementById('hours-list'); el.innerHTML='';
+  hours.forEach((h,i)=>{
+    el.innerHTML+=`<div class="hours-row">
+      <div class="day">יום ${h.day}</div>
+      ${h.closed? '<span style="color:var(--ink-faint);font-size:13px;">סגור</span>' :
+        `<input type="time" value="${h.from}"><span class="to">עד</span><input type="time" value="${h.to}">`}
+      <label class="closed-toggle">
+        <input type="checkbox" ${h.closed?'checked':''} onchange="toggleClosed(${i})"> סגור ביום זה
+      </label>
+    </div>`;
+  });
+}
+function toggleClosed(i){ hours[i].closed = !hours[i].closed; renderHours(); }
+
+function renderServices(){
+  const el=document.getElementById('services-list'); el.innerHTML='';
+  services.forEach((s,i)=>{
+    el.innerHTML+=`<div class="chip">${s}<span class="x" onclick="removeService(${i})">✕</span></div>`;
+  });
+}
+function addService(){
+  const input=document.getElementById('new-service-input');
+  const v=input.value.trim();
+  if(!v) return;
+  services.push(v);
+  input.value='';
+  renderServices();
+}
+function removeService(i){ services.splice(i,1); renderServices(); }
+function saveSettings(){ showToast('השינויים נשמרו בהצלחה ✓'); }
+
+/* ================= HISTORY RENDER ================= */
+let historyFilter='all';
+function renderHistory(){
+  const el=document.getElementById('history-list'); el.innerHTML='';
+  const filtered = history.filter(h=> historyFilter==='all' || h.type===historyFilter);
+  let lastDay=null;
+  filtered.forEach(h=>{
+    if(h.day!==lastDay){
+      el.innerHTML+=`<div class="hist-day-label">${h.day}</div>`;
+      lastDay=h.day;
+    }
+    el.innerHTML+=`<div class="hist-row">
+      <div class="hist-icon" style="background:${h.color}22">${h.icon}</div>
+      <div class="h-main"><div class="h-title">${h.title}</div></div>
+      <div class="h-time">${h.time}</div>
+    </div>`;
+  });
+  if(filtered.length===0){
+    el.innerHTML = '<div style="padding:30px 4px;color:var(--ink-faint);font-size:13px;text-align:center;">אין רשומות בקטגוריה זו</div>';
+  }
+}
+document.getElementById('hist-tabs').addEventListener('click', e=>{
+  const tab = e.target.closest('.tab');
+  if(!tab) return;
+  document.querySelectorAll('#hist-tabs .tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  historyFilter = tab.dataset.tab;
+  renderHistory();
+});
+
+/* ================= INIT ================= */
+initLogin();
+renderLeads();
+renderWaiting();
+renderTasks();
+renderConvList();
+renderConnections();
+renderHours();
+renderServices();
+renderHistory();
+</script>
+</body>
+</html>
