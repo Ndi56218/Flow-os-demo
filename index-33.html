@@ -1,0 +1,2487 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FlowOS — מערכת AI לעסקים קטנים</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjAgMTIwIj48cmVjdCB4PSIxMCIgeT0iMTAiIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIiByeD0iMjQiIGZpbGw9IiMwQjFCMzMiLz48cmVjdCB4PSIyOCIgeT0iMjQiIHdpZHRoPSI2OCIgaGVpZ2h0PSIxMiIgcng9IjYiIGZpbGw9IiNGRkZGRkYiLz48cmVjdCB4PSI0NiIgeT0iNTQiIHdpZHRoPSI1MCIgaGVpZ2h0PSIxMiIgcng9IjYiIGZpbGw9IiNGRkZGRkYiLz48cmVjdCB4PSI2NCIgeT0iODQiIHdpZHRoPSIzMiIgaGVpZ2h0PSIxMiIgcng9IjYiIGZpbGw9IiNGRkZGRkYiLz48L3N2Zz4=">
+<link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAwUlEQVR4nO2XTRJAMAyFw9hxA27B/U/ALbgBa3am2qTVSH8Y38qMNC/Nk04B/CSmsL2s236XEtqWCdUqY4jb8qEFSIvb8hpt0YPWeRQRb7rhfFbtuHQglLieS9Uhv4FY5F2A6ttTqFwVd6EUeVsQA6cFGJzxpKz07gD3bKDWJbfgfQVwx5J9DkgWgfE+C6RhWYDhGk+xc4AjbotJbkGSAsgrGXV1dnFnLKkYVDDUrRjA3CRqAbcTvuIAkf6MQm3oGxxwcz6jMiMjBwAAAABJRU5ErkJggg==">
+<link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAfklEQVR4nK2QwRGAMAgEj4w/7UC70P4rMF2YDsxbXzoMSQiJ3gsG9gYO+CjizTivlxWMwRMAuB6Y71MOPo9dhadle2snhzVY7iQG3N1yQfaFFg3asPSOmkENlrOigZbFrxkUL5B6zpavmQwkZMqAS+aRZAD05RCDJ8ebVhgAbrTwMWwQDkDaAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAD/UlEQVR4nO3dzY0bRxSFUcrwTs5AzkLKPwIpCysDay2vGqAJDofDrp9Xt84JYFjo+vCmSDaalwsAAAAAAAAAAAAAG/k0ewGv+vzl6+/Za0j36+eP5fpYYsHiraN65GUXJ+L6KsZdbkFCXk+lsMssRMjrqxD29AUIOc/MsP+Y9cKXi5hTzdzXaUGLOdus/R3+r0HI+xl5BBk6ocW8p5H7PixoMe9t1P4PCVrMXC5jOugetJi51ruHrkGLmXt6djH1c2horVvQpjOP9OqjS9Bi5hk9OmketJj5iNa9OEMTpWnQpjOvaNmNCU2UZjeNzJzO//7zfdZLb+Ovv791f40WNzH92WIhswh5nONajwj7jCYTevR0FvJ8vcI+O6WXO0OLuYaq+7Bc0PDI6aBHHjeqToVd9diPsz2Z0ERZJmjTuaZq+7JM0PAMQRPlVNDu3aCHM12Z0ERZJujqX7nuqtq+LBM0PGOpoKtNg91V3I+lgob3LBd0xamwo6r7sOT90MfFrPYt1Q6qhnxYMuiDsMepHvJh6aAPq1xs+lvuDA2PCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiRDw5aaRdHzu2ytOpBP2kXUM+rPLj9YJ+x+4h36oetjP0A2J+W9VrI2iiCPoNVSdQJRWvkaCJIug7Kk6eqqpdK0ETRdBEETRRBE0UQd9R9VuwiqpdK0ETRdBvqDZ5Kqp4jQRNFEE/UHECVVH12rh99B1+T/z/qoZ8EPSTdg+7esgHQX/QKhu7K2doogiaKIImiqCJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoogiaKIImiqCJImiiCJoogiaKoIkiaKIImiiCJoqgiSJoonhyUmGVHju2yhOjBF1QpZAP1X/j+yDoQiqGfKt62M7QRawQ87Wq6xU0UQRdQNVp956K6xY0UQQ9WcUp9xHV1i9oopwK+tfPH59aLQQOZ7oyoYkiaKIIerKq37g9q9r6BU2U00F7Y3hetSn3rB7rPtuTCU0UQRex2pSuut5mx4XPX77+bvW3dlft27drPUNucXx1P3RBRzSVwq46kW81fUNnSvOqVh8uOEMTpWnQPsLjFS27MaGJ0jxoU5qPaN1Llwktap7Ro5NuRw5R80ivPpyhidI1aFOae3p20X1Ci5prvXsYcuQQNZfLmA6GnaFFvbdR+z/0TaGo9zRy36cF5kamfDMG2LSP7UzrbLP2d+rn0KLONHNfywTlCLK+CgNq+gJuCXs9FUI+lFnILWHXVynkQ7kF3SPuOipGfK304h4ReX/V4wUAAAAAAAAAAABe8R+DNiABaKEfRwAAAABJRU5ErkJggg==">
+<meta name="theme-color" content="#0B1B33">
+<!-- Fully self-contained: no external fonts or resources of any kind. -->
+<style>
+  :root{
+    --bg:#F5F4F0;
+    --surface:#FFFFFF;
+    --ink:#1C1F26;
+    --ink-soft:#5B6169;
+    --ink-faint:#9CA1A8;
+    --line:#E5E2DA;
+    --line-strong:#D6D2C7;
+    --primary:#1F5C4A;
+    --primary-dark:#153F33;
+    --primary-light:#E5EFEA;
+    --accent:#DD8A3C;
+    --accent-light:#FBEEDD;
+    --danger:#BE4B3C;
+    --danger-light:#FAEAE7;
+    --success:#2E8B57;
+    --success-light:#E7F4ED;
+    --radius-s:6px;
+    --radius-m:10px;
+    --shadow-panel: 0 6px 24px rgba(28,31,38,0.08);
+  }
+  *{box-sizing:border-box;}
+  html,body{height:100%;}
+  body{
+    margin:0;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Hebrew', 'Arial Hebrew', Arial, sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4,.brand,button,.nav-item,.tab{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Hebrew', 'Arial Hebrew', Arial, sans-serif;font-weight:700;}
+  button{font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Hebrew', 'Arial Hebrew', Arial, sans-serif;}
+  a{color:inherit;}
+  ::selection{background:var(--primary-light);}
+
+  /* ---------- LOGIN ---------- */
+  #login-screen{
+    min-height:100vh;
+    min-height:100dvh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:
+      radial-gradient(circle at 85% 12%, rgba(31,92,74,0.10), transparent 45%),
+      radial-gradient(circle at 10% 90%, rgba(221,138,60,0.10), transparent 40%),
+      var(--bg);
+    padding:24px;
+  }
+  .login-card{
+    width:100%;
+    max-width:440px;
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    padding:44px 38px 34px;
+    box-shadow:var(--shadow-panel);
+  }
+  .login-logo{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-start;
+    gap:12px;
+    margin-bottom:32px;
+  }
+  #login-screen .login-logo{
+    align-items:center;
+    text-align:center;
+    gap:0;
+    margin-bottom:46px;
+  }
+  .brand-tagline{
+    direction:ltr;
+    margin-top:20px;
+    font-size:16px;
+    font-weight:600;
+    letter-spacing:0.6px;
+    color:#16233B;
+  }
+  .brand-subtagline{
+    direction:ltr;
+    margin-top:9px;
+    font-size:12.5px;
+    font-weight:400;
+    letter-spacing:0.2px;
+    line-height:1.55;
+    color:#96A0B0;
+    max-width:300px;
+  }
+  .benefits{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .benefit-card{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:13px 14px;
+    background:var(--bg);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+    text-align:right;
+  }
+  .benefit-icon{
+    width:34px;height:34px;border-radius:9px;
+    background:var(--surface);
+    border:1px solid var(--line-strong);
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+    color:#16233B;
+  }
+  .benefit-text{direction:ltr;text-align:left;}
+  .benefit-title{font-size:13px;font-weight:700;color:#16233B;margin-bottom:2px;}
+  .benefit-desc{font-size:12px;color:var(--ink-soft);line-height:1.5;}
+  .benefit-card-clickable{cursor:pointer;transition:border-color .15s, background .15s;}
+  .benefit-card-clickable:hover{border-color:#16233B;background:#EFEEE8;}
+  .benefit-cta{font-size:11.5px;font-weight:700;color:#16233B;margin-top:6px;}
+  .logo-mark{
+    width:34px;height:34px;border-radius:8px;
+    background:linear-gradient(155deg,var(--primary),var(--primary-dark));
+    display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:800;font-size:15px;flex-shrink:0;
+  }
+  .logo-text{font-weight:800;font-size:20px;letter-spacing:0.2px;}
+  .logo-sub{font-size:11px;color:var(--ink-faint);margin-top:1px;}
+  .login-card h1{font-size:19px;margin:0 0 6px;font-weight:600;}
+  .login-card p.lead{font-size:13.5px;color:var(--ink-soft);margin:0 0 26px;line-height:1.6;}
+  .field{margin-bottom:16px;}
+  .field label{display:block;font-size:12.5px;color:var(--ink-soft);margin-bottom:6px;font-weight:500;}
+  .field input, .field select, .field textarea{
+    width:100%;
+    padding:11px 13px;
+    border:1px solid var(--line-strong);
+    border-radius:var(--radius-s);
+    font-size:14px;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans Hebrew', 'Arial Hebrew', Arial, sans-serif;
+    color:var(--ink);
+    background:#fff;
+    transition:border-color .15s;
+  }
+  .field input:focus, .field select:focus, .field textarea:focus{
+    outline:none;
+    border-color:var(--primary);
+  }
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:11px 18px;
+    border-radius:var(--radius-s);
+    border:1px solid transparent;
+    font-size:14px;font-weight:600;
+    cursor:pointer;
+    transition:transform .08s ease, background .15s, border-color .15s;
+    white-space:nowrap;
+  }
+  .btn:active{transform:scale(0.98);}
+  .btn-primary{background:var(--primary);color:#fff;}
+  .btn-primary:hover{background:var(--primary-dark);}
+  .btn-full{width:100%;}
+  .btn-ghost{background:transparent;border-color:var(--line-strong);color:var(--ink);}
+  .btn-ghost:hover{border-color:var(--ink-faint);}
+  .btn-sm{padding:7px 12px;font-size:12.5px;}
+  .login-foot{margin-top:18px;text-align:center;font-size:12.5px;color:var(--ink-faint);}
+  .demo-hint{
+    margin-top:22px;
+    background:var(--primary-light);
+    border:1px solid #cfe1d8;
+    color:var(--primary-dark);
+    font-size:12px;
+    padding:9px 12px;
+    border-radius:var(--radius-s);
+    line-height:1.6;
+  }
+
+  /* ---------- APP SHELL ---------- */
+  #app{display:none;min-height:100vh;min-height:100dvh;}
+  #app.active{display:flex;}
+
+  .sidebar{
+    width:230px;
+    flex-shrink:0;
+    background:var(--ink);
+    color:#E9E9E7;
+    display:flex;
+    flex-direction:column;
+    padding:22px 16px;
+    position:sticky;
+    top:0;
+    height:100vh;
+    height:100dvh;
+  }
+  .sidebar .login-logo{margin-bottom:30px;padding:0 4px;}
+  .sidebar .logo-text{color:#fff;}
+  .sidebar .logo-sub{color:#9199A3;}
+  .nav-section-label{
+    font-size:10.5px;font-weight:700;letter-spacing:.06em;color:#6B7280;
+    text-transform:uppercase;padding:16px 12px 6px;
+  }
+  .nav-section-label:first-of-type{padding-top:0;}
+  .nav-item{
+    display:flex;align-items:center;gap:11px;
+    padding:10px 12px;
+    border-radius:var(--radius-s);
+    font-size:14px;font-weight:500;
+    color:#C7CBD1;
+    cursor:pointer;
+    margin-bottom:2px;
+    transition:background .15s, color .15s;
+    user-select:none;
+  }
+  .nav-item svg{flex-shrink:0;opacity:.85;}
+  .nav-item:hover{background:rgba(255,255,255,0.06);color:#fff;}
+  .nav-item.active{background:var(--primary);color:#fff;}
+  .nav-item.active svg{opacity:1;}
+  .nav-badge{
+    margin-right:auto;
+    background:var(--accent);
+    color:#211203;
+    font-size:10.5px;font-weight:700;
+    border-radius:20px;
+    padding:1px 7px;
+    min-width:18px;text-align:center;
+  }
+  .sidebar-foot{
+    margin-top:auto;
+    padding-top:16px;
+    border-top:1px solid rgba(255,255,255,0.08);
+    display:flex;align-items:center;gap:10px;
+  }
+  .avatar-round{
+    width:34px;height:34px;border-radius:50%;
+    background:var(--accent);
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:13px;color:#2b1a06;flex-shrink:0;
+  }
+  .sidebar-foot .who{font-size:12.5px;font-weight:600;color:#fff;line-height:1.3;}
+  .sidebar-foot .who span{display:block;font-weight:400;color:#9199A3;font-size:11px;}
+  .logout-link{margin-right:auto;color:#9199A3;cursor:pointer;font-size:12px;}
+  .logout-link:hover{color:#fff;}
+
+  .topbar{
+    display:none;
+    align-items:center;
+    justify-content:space-between;
+    padding:14px 18px;
+    background:var(--surface);
+    border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:20;
+  }
+  .hamburger{
+    width:38px;height:38px;border-radius:8px;border:1px solid var(--line-strong);
+    background:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;
+  }
+  .overlay{
+    display:none;position:fixed;inset:0;background:rgba(20,22,26,0.45);z-index:29;
+  }
+  .overlay.show{display:block;}
+
+  main{flex:1;min-width:0;}
+  .screen{display:none;padding:28px 34px 60px;max-width:1180px;}
+  .screen.active{display:block;}
+  .page-head{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    margin-bottom:24px;gap:16px;flex-wrap:wrap;
+  }
+  .page-head h1{font-size:22px;margin:0 0 4px;font-weight:700;}
+  .page-head p{margin:0;color:var(--ink-soft);font-size:13.5px;}
+
+  .card{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius-m);
+  }
+  .card-head{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 18px;border-bottom:1px solid var(--line);
+  }
+  .card-head h3{margin:0;font-size:14.5px;font-weight:700;display:flex;align-items:center;gap:8px;}
+  .count-pill{
+    background:var(--bg);border:1px solid var(--line);
+    font-size:11.5px;font-weight:600;color:var(--ink-soft);
+    border-radius:20px;padding:1px 9px;
+  }
+
+  /* ---------- DASHBOARD ---------- */
+  .summary-strip{
+    display:flex;gap:18px;padding:18px 20px;margin-bottom:22px;
+    border-radius:var(--radius-m);
+    background:linear-gradient(120deg, var(--primary-dark), var(--primary));
+    color:#fff;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .summary-strip .icon-wrap{
+    width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,0.15);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .summary-strip .txt{flex:1;min-width:220px;}
+  .summary-strip .txt .lbl{font-size:11.5px;opacity:.8;margin-bottom:3px;font-weight:500;}
+  .summary-strip .txt .val{font-size:14.5px;line-height:1.55;}
+  .summary-stats{display:flex;gap:22px;flex-wrap:wrap;}
+  .summary-stats .stat{text-align:center;}
+  .summary-stats .stat b{display:block;font-size:20px;font-weight:800;}
+  .summary-stats .stat span{font-size:11px;opacity:.8;}
+
+  .grid-2{display:grid;grid-template-columns:1.15fr 1fr;gap:18px;margin-bottom:18px;}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:18px;}
+
+  .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+  .stat-tile{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-m);
+    padding:16px 14px;text-align:center;
+  }
+  .stat-tile b{display:block;font-size:23px;font-weight:800;color:var(--ink);margin-bottom:3px;}
+  .stat-tile span{font-size:11px;color:var(--ink-soft);line-height:1.4;}
+  .stat-tile-accent{background:var(--primary-light);border-color:#d3e4dc;}
+  .stat-tile-accent b{color:var(--primary-dark);}
+
+  .approval-row{
+    display:flex;align-items:center;gap:10px;padding:13px 18px;
+    border-bottom:1px solid var(--line);flex-wrap:wrap;
+  }
+  .approval-row:last-child{border-bottom:none;}
+  .approval-row .main{flex:1;min-width:180px;}
+  .approval-row .name{font-size:13.5px;font-weight:700;}
+  .approval-row .action{font-size:12px;color:var(--ink-soft);margin-top:3px;line-height:1.5;}
+  .approval-actions{display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;}
+  .approval-edit-box{margin-top:6px;}
+  .approval-edit-box textarea{
+    width:100%;font-family:inherit;font-size:12.5px;padding:8px 10px;
+    border:1px solid var(--line-strong);border-radius:7px;resize:vertical;color:var(--ink);
+  }
+  .approval-edit-box textarea:focus{outline:none;border-color:var(--primary);}
+
+  .attention-row{display:flex;align-items:center;gap:12px;padding:13px 18px;border-bottom:1px solid var(--line);}
+  .attention-row:last-child{border-bottom:none;}
+  .attention-row .main{flex:1;min-width:0;}
+  .attention-row .name{font-size:13.5px;font-weight:600;}
+  .attention-row .sub{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .attention-icon{
+    width:32px;height:32px;border-radius:9px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;font-size:14px;
+  }
+  .attention-icon.unhappy{background:var(--danger-light);}
+  .attention-icon.waiting{background:#FDF3E3;}
+  .attention-icon.callback{background:var(--primary-light);}
+
+  @media (max-width:980px){
+    .stat-grid{grid-template-columns:repeat(2,1fr);}
+  }
+
+  .list-row{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 18px;
+    border-bottom:1px solid var(--line);
+  }
+  .list-row:last-child{border-bottom:none;}
+  .list-row .avatar{
+    width:36px;height:36px;border-radius:50%;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:13px;color:#fff;
+  }
+  .list-row .main{flex:1;min-width:0;}
+  .list-row .main .name{font-size:13.5px;font-weight:600;}
+  .list-row .main .sub{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .tag{
+    font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;flex-shrink:0;
+  }
+  .tag-hot{background:var(--accent-light);color:#9A5A18;}
+  .tag-warm{background:#FDF3E3;color:#8A6A1F;}
+  .tag-wait{background:var(--danger-light);color:var(--danger);}
+  .tag-ok{background:var(--success-light);color:var(--success);}
+  .row-time{font-size:11px;color:var(--ink-faint);flex-shrink:0;}
+
+  .task-row{display:flex;align-items:flex-start;gap:11px;padding:12px 18px;border-bottom:1px solid var(--line);}
+  .task-row:last-child{border-bottom:none;}
+  .task-check{
+    width:19px;height:19px;border-radius:5px;border:1.5px solid var(--line-strong);
+    flex-shrink:0;margin-top:1px;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+    transition:background .15s,border-color .15s;
+  }
+  .task-check.done{background:var(--primary);border-color:var(--primary);}
+  .task-row .t-main{flex:1;}
+  .task-row .t-main .t-title{font-size:13.5px;font-weight:500;}
+  .task-row.done .t-title{color:var(--ink-faint);text-decoration:line-through;}
+  .task-row .t-main .t-sub{font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+
+  /* ---------- CONVERSATIONS ---------- */
+  .conv-layout{display:grid;grid-template-columns:360px 1fr;gap:18px;height:calc(100vh - 160px);min-height:520px;}
+
+  /* ---- Live demo screen (Customer Conversations) ---- */
+  #demo-screen{display:none;min-height:100vh;min-height:100dvh;background:var(--bg);}
+  #demo-screen.active{display:block;}
+  .demo-topbar{
+    display:flex;align-items:center;gap:16px;
+    padding:14px 20px;background:var(--surface);border-bottom:1px solid var(--line);
+    position:sticky;top:0;z-index:5;
+  }
+  .demo-topbar-title{font-weight:700;font-size:15px;color:var(--ink);}
+  .demo-topbar-title span{font-weight:400;color:var(--ink-soft);font-size:12.5px;}
+  .demo-body{padding:20px 20px 40px;max-width:1080px;margin:0 auto;}
+  .demo-conv-layout{height:calc(100vh - 150px);}
+  .ai-summary-box{
+    margin:14px 20px 0;padding:14px 16px;
+    background:#F3F2ED;border:1px solid var(--line-strong);border-radius:var(--radius-s);
+  }
+  .ai-summary-box b{display:flex;align-items:center;gap:6px;font-size:12px;margin-bottom:8px;color:#16233B;}
+  .ai-summary-box ul{margin:0;padding-inline-start:18px;display:flex;flex-direction:column;gap:5px;}
+  .ai-summary-box li{font-size:12.5px;color:var(--ink-soft);line-height:1.5;}
+  .ai-reply-box{
+    margin:12px 20px 0;padding:13px 15px;
+    background:var(--primary-light);border:1px solid #cfe1d8;border-radius:var(--radius-s);
+    font-size:13px;color:var(--primary-dark);line-height:1.6;
+  }
+  .ai-reply-box .lbl{display:block;font-size:11px;font-weight:700;margin-bottom:5px;color:var(--primary-dark);}
+  .ai-generating{font-size:12.5px;color:var(--ink-faint);display:flex;align-items:center;gap:7px;}
+  .dot-flash{display:inline-flex;gap:3px;}
+  .dot-flash span{width:4px;height:4px;border-radius:50%;background:var(--ink-faint);animation:dotFlash 1s infinite ease-in-out;}
+  .dot-flash span:nth-child(2){animation-delay:.15s;}
+  .dot-flash span:nth-child(3){animation-delay:.3s;}
+  @keyframes dotFlash{0%,80%,100%{opacity:.25;}40%{opacity:1;}}
+  @media (max-width:980px){
+    .demo-body{padding:14px 12px 30px;}
+    .demo-conv-layout{height:auto;}
+  }
+  .conv-list{overflow-y:auto;}
+  .conv-item{
+    display:flex;gap:11px;padding:14px 16px;border-bottom:1px solid var(--line);
+    cursor:pointer;transition:background .12s;position:relative;
+  }
+  .conv-item:hover{background:var(--bg);}
+  .conv-item.active{background:var(--primary-light);}
+  .conv-item.active::before{
+    content:"";position:absolute;right:0;top:0;bottom:0;width:3px;background:var(--primary);
+  }
+  .conv-item .avatar{width:38px;height:38px;font-size:13px;}
+  .conv-item .main{flex:1;min-width:0;}
+  .conv-item .top-line{display:flex;justify-content:space-between;gap:6px;}
+  .conv-item .cname{font-size:13.5px;font-weight:700;}
+  .conv-item .ctime{font-size:10.5px;color:var(--ink-faint);flex-shrink:0;}
+  .conv-item .snippet{font-size:12px;color:var(--ink-soft);margin-top:3px;
+    overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .conv-item .ai-line{
+    display:flex;align-items:center;gap:5px;
+    font-size:11px;color:var(--primary-dark);margin-top:6px;
+    background:var(--primary-light);padding:4px 8px;border-radius:6px;
+  }
+  .channel-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+
+  .conv-detail{display:flex;flex-direction:column;overflow:hidden;}
+  .conv-detail-head{
+    display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid var(--line);
+  }
+  .conv-detail-head .name{font-size:15px;font-weight:700;}
+  .conv-detail-head .meta{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .conv-summary-box{
+    margin:14px 20px 0;padding:12px 14px;
+    background:var(--primary-light);border:1px solid #d3e4dc;border-radius:var(--radius-s);
+    font-size:12.5px;color:var(--primary-dark);line-height:1.65;
+  }
+  .conv-summary-box b{display:block;font-size:11.5px;margin-bottom:3px;color:var(--primary-dark);}
+  .conv-messages{flex:1;overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:10px;}
+  .msg{max-width:72%;padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.55;}
+  .msg-in{background:var(--bg);border:1px solid var(--line);align-self:flex-start;border-top-right-radius:3px;}
+  .msg-out{background:var(--primary);color:#fff;align-self:flex-end;border-top-left-radius:3px;}
+  .msg-time{font-size:10px;opacity:.65;margin-top:4px;display:block;}
+  .conv-actions{
+    padding:14px 20px;border-top:1px solid var(--line);
+    display:flex;gap:8px;flex-wrap:wrap;
+  }
+  .empty-state{
+    flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    color:var(--ink-faint);font-size:13px;gap:8px;
+  }
+
+
+  /* ---------- CONVERSATIONS (business chat) ---------- */
+  .tag-info{background:#E6EDF7;color:#2F5A9A;}
+  .conv-item .avatar,.conv-detail-head .avatar,.notif-card .avatar{
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    color:#fff;font-weight:700;flex-shrink:0;
+  }
+  .conv-detail-head .avatar{width:40px;height:40px;font-size:13px;}
+  .conv-item .conv-meta{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap;}
+  .conv-item .conv-meta .tag{font-size:10px;}
+  .conv-item .ctime.unread{color:var(--success);font-weight:700;}
+  .conv-item .snippet .tick-mini{color:#4FA3D9;font-size:11px;letter-spacing:-2px;}
+  .unread-badge{
+    margin-inline-start:auto;background:var(--success);color:#fff;font-size:10.5px;font-weight:700;
+    min-width:19px;height:19px;padding:0 6px;border-radius:20px;display:inline-flex;align-items:center;justify-content:center;
+  }
+  .approval-flag{font-size:10.5px;font-weight:700;color:#9A5A18;display:inline-flex;align-items:center;gap:5px;}
+  .approval-flag::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pulseDot 1.6s infinite;}
+  @keyframes pulseDot{0%{box-shadow:0 0 0 0 rgba(221,138,60,.55);}70%{box-shadow:0 0 0 6px rgba(221,138,60,0);}100%{box-shadow:0 0 0 0 rgba(221,138,60,0);}}
+
+  #conv-detail .conv-detail-head{gap:11px;}
+  #conv-detail .conv-detail-head .grow{flex:1;min-width:0;}
+  #conv-detail .conv-detail-head .meta{display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .wa-dot{width:7px;height:7px;border-radius:50%;background:#25D366;display:inline-block;}
+  .conv-back{
+    display:none;width:34px;height:34px;border-radius:8px;border:1px solid var(--line-strong);background:#fff;
+    cursor:pointer;font-size:16px;flex-shrink:0;align-items:center;justify-content:center;color:var(--ink);
+  }
+  #conv-detail .conv-messages{background:var(--bg);min-height:0;}
+  #conv-detail .msg-in{background:#fff;}
+  #conv-detail .msg-out .msg-time{opacity:1;color:rgba(255,255,255,.82);}
+  .ticks.read{color:#7fd6ff !important;}
+  .msg-by{display:block;font-size:10px;font-weight:700;opacity:.85;margin-bottom:3px;}
+  .ticks{margin-inline-start:5px;letter-spacing:-2px;}
+  .ticks.read{color:#8fd6ff;opacity:1;}
+  .day-chip{align-self:center;font-size:11px;color:var(--ink-soft);background:#fff;border:1px solid var(--line);padding:3px 12px;border-radius:20px;}
+  .sys-chip{align-self:center;font-size:11px;color:var(--ink-soft);background:#EDEBE5;padding:4px 12px;border-radius:20px;text-align:center;}
+  .msg.typing{padding:12px 14px;}
+
+  .draft-wrap{align-self:flex-end;width:min(92%,430px);display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+  .draft-label{display:flex;align-items:center;justify-content:space-between;font-size:11.5px;font-weight:700;color:var(--primary-dark);}
+  .draft-state{background:var(--accent-light);color:#9A5A18;padding:2px 10px;border-radius:20px;font-size:10.5px;}
+  .draft-bubble{
+    background:#fff;border:1.5px dashed var(--primary);color:var(--ink);border-radius:12px;border-top-left-radius:3px;
+    padding:11px 14px;font-size:13px;line-height:1.6;
+  }
+  .draft-bubble textarea{width:100%;border:1px solid var(--line-strong);border-radius:var(--radius-s);padding:8px 10px;font-family:inherit;font-size:13px;line-height:1.55;resize:vertical;}
+  .draft-bubble textarea:focus{outline:none;border-color:var(--primary);}
+  .draft-edit-actions{display:flex;gap:8px;margin-top:8px;}
+  .ai-card{background:#fff;border:1px solid var(--line-strong);border-radius:var(--radius-m);overflow:hidden;font-size:12.5px;}
+  .ai-card-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 13px;background:var(--primary-light);font-weight:700;font-size:12px;color:var(--primary-dark);}
+  .ai-chip{background:#fff;border:1px solid var(--line-strong);border-radius:20px;padding:1px 9px;font-size:10px;font-weight:600;color:var(--ink-soft);white-space:nowrap;}
+  .ai-card-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 13px;border-top:1px solid var(--line);color:var(--ink-soft);}
+  .ai-card-row b{color:var(--ink);font-weight:700;}
+  .ai-card-row.total{background:var(--bg);}
+  .ai-card-row.total b{font-size:14px;}
+  .ai-card.alert{border-color:#e9c9c4;}
+  .ai-card.alert .ai-card-head{background:var(--danger-light);color:var(--danger);}
+  .sent-wrap{display:flex;align-items:center;gap:8px;flex:1;justify-content:flex-end;}
+  .sentiment-bar{width:90px;height:6px;background:var(--line);border-radius:6px;overflow:hidden;display:inline-block;}
+  .sentiment-bar i{display:block;height:100%;background:var(--danger);border-radius:6px;}
+  .ai-card-cta{padding:10px 13px;border-top:1px solid var(--line);display:flex;gap:8px;}
+  .btn-reject{color:var(--danger);border-color:#e6c3be;}
+  .btn-reject:hover{border-color:var(--danger);}
+  .composer{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--line);background:var(--surface);}
+  .composer input{flex:1;min-width:0;padding:10px 15px;border:1px solid var(--line-strong);border-radius:22px;font-size:13.5px;font-family:inherit;background:var(--bg);color:var(--ink);}
+  .composer input:focus{outline:none;border-color:var(--primary);background:#fff;}
+  .send-btn{width:40px;height:40px;border-radius:50%;border:none;background:var(--primary);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;}
+  .send-btn svg{transform:scaleX(-1);}
+
+  #notif-host{position:fixed;top:14px;left:14px;z-index:120;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+  .notif-card{
+    pointer-events:auto;width:min(350px,calc(100vw - 28px));background:var(--surface);border:1px solid var(--line-strong);
+    border-radius:var(--radius-m);box-shadow:0 10px 30px rgba(28,31,38,.16);padding:11px 13px;display:flex;gap:11px;align-items:flex-start;
+    cursor:pointer;animation:notifIn .3s ease;
+  }
+  .notif-card.out{opacity:0;transform:translateY(-8px);transition:all .3s;}
+  @keyframes notifIn{from{opacity:0;transform:translateY(-12px);}to{opacity:1;transform:none;}}
+  .notif-card .avatar{width:34px;height:34px;font-size:12px;}
+  .notif-card .n-body{flex:1;min-width:0;}
+  .notif-card .n-top{display:flex;justify-content:space-between;gap:8px;}
+  .notif-card .n-title{font-size:12.5px;font-weight:700;}
+  .notif-card .n-time{font-size:10.5px;color:var(--ink-faint);}
+  .notif-card .n-sub{font-size:12px;color:var(--ink-soft);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  @media (max-width:980px){
+    .conv-back{display:inline-flex;}
+    #conv-detail{height:calc(100vh - 200px);height:calc(100dvh - 200px);min-height:420px;}
+    #notif-host{left:50%;transform:translateX(-50%);}
+  }
+
+  /* ---------- CONNECTIONS ---------- */
+  .conn-row{
+    display:flex;align-items:center;gap:14px;padding:16px 18px;border-bottom:1px solid var(--line);
+  }
+  .conn-row:last-child{border-bottom:none;}
+  .conn-icon{
+    width:42px;height:42px;border-radius:10px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;color:#fff;
+  }
+  .conn-row .main{flex:1;}
+  .conn-row .main .cname{font-size:14px;font-weight:700;}
+  .conn-row .main .cdesc{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .status-pill{
+    display:flex;align-items:center;gap:6px;font-size:12px;font-weight:600;
+    padding:5px 12px;border-radius:20px;flex-shrink:0;
+  }
+  .status-pill .dot{width:7px;height:7px;border-radius:50%;}
+  .status-on{background:var(--success-light);color:var(--success);}
+  .status-on .dot{background:var(--success);}
+  .status-off{background:var(--bg);color:var(--ink-faint);border:1px solid var(--line-strong);}
+  .status-off .dot{background:var(--ink-faint);}
+
+  /* ---------- SETTINGS ---------- */
+  .settings-section{padding:20px;border-bottom:1px solid var(--line);}
+  .settings-section:last-child{border-bottom:none;}
+  .settings-section h4{margin:0 0 4px;font-size:14px;font-weight:700;}
+  .settings-section .hint{font-size:12px;color:var(--ink-soft);margin:0 0 16px;}
+  .field-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .hours-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .hours-row .day{width:64px;font-size:13px;font-weight:600;flex-shrink:0;}
+  .hours-row input[type=time]{width:110px;}
+  .hours-row .to{color:var(--ink-faint);font-size:12px;}
+  .hours-row .closed-toggle{margin-right:auto;font-size:12px;display:flex;align-items:center;gap:6px;color:var(--ink-soft);cursor:pointer;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .chip{
+    background:var(--bg);border:1px solid var(--line-strong);
+    padding:6px 12px;border-radius:20px;font-size:12.5px;
+    display:flex;align-items:center;gap:7px;
+  }
+  .chip .x{cursor:pointer;color:var(--ink-faint);font-weight:700;}
+  .chip .x:hover{color:var(--danger);}
+  .add-chip-form{display:flex;gap:8px;margin-top:12px;}
+  .add-chip-form input{flex:1;}
+  .profile-edit-banner{
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    padding:16px 20px;margin-bottom:18px;
+    background:var(--primary-light);border:1px solid #cfe1d8;border-radius:var(--radius-m);
+  }
+  .pe-icon{
+    width:40px;height:40px;border-radius:10px;background:var(--primary);flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .pe-txt{flex:1;min-width:200px;}
+  .pe-txt h3{margin:0 0 2px;font-size:14.5px;font-weight:700;color:var(--primary-dark);}
+  .pe-txt p{margin:0;font-size:12.5px;color:var(--ink-soft);}
+  .ai-mode-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .ai-mode-card{
+    padding:14px;border:1.5px solid var(--line-strong);border-radius:var(--radius-s);cursor:pointer;
+    transition:border-color .15s,background .15s;
+  }
+  .ai-mode-card .t{font-size:13px;font-weight:700;display:flex;align-items:center;gap:7px;}
+  .ai-mode-card .s{font-size:11.5px;color:var(--ink-soft);margin-top:4px;line-height:1.5;}
+  .ai-mode-card .radio{width:16px;height:16px;border-radius:50%;border:2px solid var(--line-strong);flex-shrink:0;position:relative;}
+  .ai-mode-card.selected{border-color:var(--primary);background:var(--primary-light);}
+  .ai-mode-card.selected .radio{border-color:var(--primary);}
+  .ai-mode-card.selected .radio::after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--primary);}
+  .segmented{display:inline-flex;border:1px solid var(--line-strong);border-radius:var(--radius-s);overflow:hidden;}
+  .segmented .seg{padding:8px 18px;font-size:12.5px;font-weight:600;color:var(--ink-soft);cursor:pointer;background:#fff;}
+  .segmented .seg:not(:last-child){border-left:1px solid var(--line-strong);}
+  .segmented .seg.selected{background:var(--primary);color:#fff;}
+  .team-row{display:flex;align-items:center;gap:12px;padding:11px 4px;border-bottom:1px solid var(--line);}
+  .team-row:last-child{border-bottom:none;}
+  .team-row .avatar{width:34px;height:34px;font-size:12px;}
+  .team-row .main{flex:1;min-width:0;}
+  .team-row .main .n{font-size:13px;font-weight:600;}
+  .team-row .main .e{font-size:11.5px;color:var(--ink-soft);}
+  .plan-card{
+    display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    padding:16px;border:1px solid var(--line);border-radius:var(--radius-s);background:var(--bg);
+  }
+  .plan-main{display:flex;align-items:center;gap:12px;flex:1;min-width:200px;}
+  .plan-badge{background:var(--primary);color:#fff;font-size:11.5px;font-weight:700;padding:4px 12px;border-radius:20px;}
+  .plan-txt b{display:block;font-size:13.5px;}
+  .plan-txt span{font-size:11.5px;color:var(--ink-soft);}
+  @media (max-width:980px){
+    .ai-mode-row{grid-template-columns:1fr;}
+  }
+  .settings-foot{
+    display:flex;justify-content:flex-end;gap:10px;padding:16px 20px;
+    position:sticky;bottom:0;background:var(--surface);border-top:1px solid var(--line);
+    border-radius:0 0 var(--radius-m) var(--radius-m);
+  }
+
+  /* ---------- BUSINESS SETUP ---------- */
+  .setup-section{padding:22px 24px;border-bottom:1px solid var(--line);}
+  .setup-section:last-child{border-bottom:none;}
+  .setup-section-head{display:flex;align-items:center;gap:10px;margin-bottom:4px;}
+  .setup-badge{
+    width:28px;height:28px;border-radius:8px;display:flex;align-items:center;justify-content:center;
+    font-size:13px;font-weight:800;flex-shrink:0;
+  }
+  .setup-badge.b1{background:var(--primary-light);color:var(--primary-dark);}
+  .setup-badge.b2{background:var(--success-light);color:var(--success);}
+  .setup-badge.b3{background:var(--accent-light);color:#9A5A18;}
+  .setup-badge.b4{background:var(--danger-light);color:var(--danger);}
+  .setup-badge.b5{background:#E6EDF7;color:#2F5A9A;}
+  .setup-badge.b6{background:var(--primary-light);color:var(--primary-dark);}
+  .setup-section h4{margin:0;font-size:14.5px;font-weight:700;}
+  .setup-section .hint{font-size:12px;color:var(--ink-soft);margin:4px 0 16px;}
+  .setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .setup-row{
+    display:flex;align-items:center;gap:12px;padding:12px 14px;
+    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-s);
+  }
+  .setup-row .txt{flex:1;min-width:0;}
+  .setup-row .txt .t{font-size:13px;font-weight:600;}
+  .setup-row .txt .s{font-size:11px;color:var(--ink-soft);margin-top:1px;}
+  .setup-row.deny{background:var(--danger-light);border-color:#f0d2ce;}
+  .setup-row.deny .txt .t{color:var(--danger);}
+  .setup-row .deny-x{
+    width:22px;height:22px;border-radius:50%;background:#fff;border:1.5px solid var(--danger);
+    color:var(--danger);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;font-weight:800;
+  }
+  .switch{position:relative;width:38px;height:22px;flex-shrink:0;}
+  .switch input{opacity:0;width:0;height:0;}
+  .switch .track{position:absolute;inset:0;background:var(--line-strong);border-radius:22px;cursor:pointer;transition:background .18s;}
+  .switch .track::before{content:"";position:absolute;width:16px;height:16px;left:3px;top:3px;background:#fff;border-radius:50%;transition:transform .18s;box-shadow:0 1px 2px rgba(0,0,0,.25);}
+  .switch input:checked + .track{background:var(--success);}
+  .switch input:checked + .track::before{transform:translateX(-16px);}
+  .switch.amber input:checked + .track{background:var(--accent);}
+  .setup-conn-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);}
+  .setup-conn-row:last-child{border-bottom:none;}
+  .rule-row{
+    display:flex;align-items:flex-start;gap:12px;padding:12px 14px;
+    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius-s);margin-bottom:8px;
+  }
+  .rule-row .bullet{
+    width:22px;height:22px;border-radius:50%;background:var(--primary-light);color:var(--primary-dark);
+    display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0;margin-top:1px;
+  }
+  .rule-row .txt{flex:1;font-size:13px;line-height:1.55;}
+  .rule-row .rm{
+    width:22px;height:22px;border-radius:50%;background:#fff;border:1px solid var(--line-strong);
+    color:var(--ink-faint);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;cursor:pointer;
+  }
+  .rule-row .rm:hover{border-color:var(--danger);color:var(--danger);}
+  .rule-add-form{display:flex;gap:8px;margin-top:6px;}
+  .rule-add-form input{flex:1;}
+  .ai-learn-box{
+    border:1px solid var(--line-strong);border-radius:var(--radius-s);overflow:hidden;
+  }
+  .ai-learn-box textarea{
+    width:100%;border:none;padding:14px 16px;font-family:inherit;font-size:13.5px;line-height:1.7;
+    color:var(--ink);resize:vertical;min-height:130px;background:#fff;
+  }
+  .ai-learn-box textarea:focus{outline:none;}
+  .ai-learn-foot{
+    display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:9px 14px;background:var(--bg);border-top:1px solid var(--line);
+  }
+  .ai-learn-foot .tip{font-size:11.5px;color:var(--ink-soft);}
+
+  /* ---------- HISTORY ---------- */
+  .tabs{display:flex;gap:6px;margin-bottom:18px;border-bottom:1px solid var(--line);}
+  .tab{
+    padding:9px 4px;margin-left:22px;font-size:13.5px;font-weight:600;color:var(--ink-soft);
+    cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;
+  }
+  .tab.active{color:var(--primary-dark);border-color:var(--primary);}
+  .hist-day-label{font-size:12px;font-weight:700;color:var(--ink-faint);margin:20px 0 8px;padding-right:2px;}
+  .hist-day-label:first-child{margin-top:0;}
+  .hist-row{
+    display:flex;align-items:flex-start;gap:12px;padding:11px 4px;border-bottom:1px solid var(--line);
+  }
+  .hist-icon{
+    width:30px;height:30px;border-radius:8px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .hist-row .h-main{flex:1;}
+  .hist-row .h-title{font-size:13px;}
+  .hist-row .h-title b{font-weight:600;}
+  .hist-row .h-time{font-size:11px;color:var(--ink-faint);flex-shrink:0;margin-top:2px;}
+  .hist-list-card{padding:6px 16px 16px;}
+
+  /* ---------- AI ACTIVITY CENTER ---------- */
+  .live-strip{
+    display:flex;align-items:center;gap:10px;padding:12px 16px;margin-bottom:18px;
+    background:var(--primary-light);border:1px solid #cfe1d8;border-radius:var(--radius-s);
+  }
+  .live-dot{width:8px;height:8px;border-radius:50%;background:var(--success);flex-shrink:0;position:relative;}
+  .live-dot::after{
+    content:"";position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--success);
+    animation:liveDotPulse 1.8s infinite ease-out;
+  }
+  @keyframes liveDotPulse{0%{transform:scale(.6);opacity:.9;}100%{transform:scale(1.8);opacity:0;}}
+  .live-strip .txt{font-size:13px;font-weight:600;color:var(--ink);}
+  .live-strip .txt span{font-weight:400;color:var(--ink-soft);}
+  .activity-timeline{position:relative;padding:6px 4px;}
+  .activity-row{
+    display:flex;gap:14px;padding:14px 18px;border-bottom:1px solid var(--line);position:relative;
+  }
+  .activity-row:last-child{border-bottom:none;}
+  .activity-time{
+    width:52px;flex-shrink:0;font-size:12px;font-weight:700;color:var(--ink-soft);padding-top:2px;text-align:center;
+  }
+  .activity-line{width:2px;background:var(--line);position:relative;flex-shrink:0;margin:2px 0;}
+  .activity-dot{
+    position:absolute;top:2px;right:-4px;width:10px;height:10px;border-radius:50%;border:2px solid #fff;
+    box-shadow:0 0 0 1px var(--line-strong);
+  }
+  .activity-dot.completed{background:var(--success);}
+  .activity-dot.approved{background:#2F5A9A;}
+  .activity-dot.waiting{background:var(--accent);}
+  .activity-main{flex:1;min-width:0;padding-inline-end:4px;}
+  .activity-title{font-size:13.5px;font-weight:600;line-height:1.5;}
+  .activity-detail{font-size:12px;color:var(--ink-soft);margin-top:4px;display:flex;flex-wrap:wrap;gap:5px 14px;}
+  .activity-detail .kv b{color:var(--ink);font-weight:700;}
+  .activity-status{flex-shrink:0;padding-top:1px;}
+  .tag-approved{background:#E6EDF7;color:#2F5A9A;}
+  .activity-summary{
+    border-radius:var(--radius-m);padding:22px 26px;margin-top:18px;
+    background:linear-gradient(120deg, var(--primary-dark), var(--primary));color:#fff;
+    display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+  }
+  .activity-summary .s-head{flex:1;min-width:180px;}
+  .activity-summary .s-head .lbl{font-size:11.5px;opacity:.8;margin-bottom:3px;}
+  .activity-summary .s-head h3{margin:0;font-size:17px;font-weight:800;}
+  .activity-summary .s-stats{display:flex;gap:26px;flex-wrap:wrap;}
+  .activity-summary .s-stat{text-align:center;}
+  .activity-summary .s-stat b{display:block;font-size:24px;font-weight:800;}
+  .activity-summary .s-stat span{font-size:11px;opacity:.85;}
+  @media (max-width:980px){
+    .activity-time{width:40px;font-size:11px;}
+    .activity-detail{gap:4px 10px;}
+  }
+
+
+  /* ---------- TOAST ---------- */
+  #toast{
+    position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(20px);
+    background:var(--ink);color:#fff;padding:11px 20px;border-radius:30px;
+    font-size:13px;font-weight:500;opacity:0;pointer-events:none;
+    transition:opacity .25s, transform .25s;z-index:100;
+    display:flex;align-items:center;gap:8px;box-shadow:0 8px 24px rgba(0,0,0,0.25);
+  }
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .sidebar{position:fixed;top:0;bottom:0;right:0;z-index:30;transform:translateX(100%);
+      transition:transform .25s ease;box-shadow:-6px 0 24px rgba(0,0,0,0.2);height:100vh;height:100dvh;}
+    .sidebar.open{transform:translateX(0);}
+    .topbar{display:flex;}
+    .screen{padding:20px 16px 60px;}
+    .grid-2,.grid-3{grid-template-columns:1fr;}
+    .conv-layout{grid-template-columns:1fr;height:auto;}
+    .conv-list{max-height:340px;}
+    .conv-detail{min-height:420px;}
+    .field-grid{grid-template-columns:1fr;}
+    .conv-detail.mobile-hide{display:none;}
+    .conv-list.mobile-hide{display:none;}
+  }
+</style>
+</head>
+<body>
+
+<!-- Reusable inline FlowOS brand assets (final approved mark — no external files) -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <symbol id="flowos-mark-navy" viewBox="0 0 100 100">
+      <rect x="18" y="14" width="68" height="12" rx="6" fill="#0B1B33"/>
+      <rect x="36" y="44" width="50" height="12" rx="6" fill="#0B1B33"/>
+      <rect x="54" y="74" width="32" height="12" rx="6" fill="#0B1B33"/>
+    </symbol>
+    <symbol id="flowos-mark-white" viewBox="0 0 100 100">
+      <rect x="18" y="14" width="68" height="12" rx="6" fill="#FFFFFF"/>
+      <rect x="36" y="44" width="50" height="12" rx="6" fill="#FFFFFF"/>
+      <rect x="54" y="74" width="32" height="12" rx="6" fill="#FFFFFF"/>
+    </symbol>
+    <symbol id="flowos-logo-light" viewBox="0 0 300 100" overflow="visible">
+      <rect x="11.52" y="26.96" width="43.52" height="7.68" rx="3.84" fill="#0B1B33"/>
+      <rect x="23.04" y="46.16" width="32" height="7.68" rx="3.84" fill="#0B1B33"/>
+      <rect x="34.56" y="65.36" width="20.48" height="7.68" rx="3.84" fill="#0B1B33"/>
+      <text x="70" y="66" direction="ltr" font-family="-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="44" letter-spacing="1.5" fill="#0B1B33">FlowOS</text>
+    </symbol>
+    <symbol id="flowos-logo-dark" viewBox="0 0 300 100" overflow="visible">
+      <rect x="11.52" y="26.96" width="43.52" height="7.68" rx="3.84" fill="#FFFFFF"/>
+      <rect x="23.04" y="46.16" width="32" height="7.68" rx="3.84" fill="#FFFFFF"/>
+      <rect x="34.56" y="65.36" width="20.48" height="7.68" rx="3.84" fill="#FFFFFF"/>
+      <text x="70" y="66" direction="ltr" font-family="-apple-system,'Segoe UI','Helvetica Neue',Arial,sans-serif" font-weight="600" font-size="44" letter-spacing="1.5" fill="#FFFFFF">FlowOS</text>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ================= LOGIN SCREEN ================= -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <svg width="228" height="76" viewBox="0 0 300 100" role="img" aria-label="FlowOS" style="overflow:visible" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#flowos-logo-light" xlink:href="#flowos-logo-light"/></svg>
+      <div class="brand-tagline">The Operating System for Small Business</div>
+      <div class="brand-subtagline">Connect WhatsApp, Email and AI automation in one place.</div>
+    </div>
+
+    <div class="benefits">
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7z"/></svg>
+        </div>
+        <div class="benefit-text">
+          <div class="benefit-title">AI Assistant</div>
+          <div class="benefit-desc">Let AI answer customers automatically and save time.</div>
+        </div>
+      </div>
+      <div class="benefit-card benefit-card-clickable" onclick="openDemo()" role="button" tabindex="0">
+        <div class="benefit-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5c-1.4 0-2.7-.3-3.9-.9L3 20l1-5.4A8.5 8.5 0 1 1 21 11.5z"/></svg>
+        </div>
+        <div class="benefit-text">
+          <div class="benefit-title">Customer Conversations</div>
+          <div class="benefit-desc">Manage WhatsApp, Email and customer communication from one place.</div>
+          <div class="benefit-cta">Try live demo ›</div>
+        </div>
+      </div>
+      <div class="benefit-card">
+        <div class="benefit-icon">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V10M11 19V5M18 19v-7"/></svg>
+        </div>
+        <div class="benefit-text">
+          <div class="benefit-title">Business Insights</div>
+          <div class="benefit-desc">Track activity and understand what is happening in your business.</div>
+        </div>
+      </div>
+    </div>
+    <h1>ברוכים הבאים</h1>
+    <p class="lead">התחברו כדי לראות את כל התקשורת עם הלקוחות שלכם במקום אחד.</p>
+    <form id="login-form">
+      <div class="field">
+        <label>אימייל</label>
+        <input type="email" id="login-email" value="yehuda@my-business.co.il" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+      </div>
+      <div class="field">
+        <label>סיסמה</label>
+        <input type="password" id="login-password" value="demo-password" autocomplete="off">
+      </div>
+      <button type="button" id="login-btn" class="btn btn-primary btn-full">התחברות</button>
+    </form>
+    <div class="login-foot">אין לכם חשבון? <a style="color:var(--primary);font-weight:600;">הרשמה לגרסת ניסיון</a></div>
+    <div class="demo-hint">זהו דמו לתצוגה בלבד. כל הנתונים באפליקציה הם נתוני דוגמה, וההתחברות אינה בודקת סיסמה אמיתית.</div>
+  </div>
+</div>
+
+<!-- ================= LIVE DEMO: CUSTOMER CONVERSATIONS ================= -->
+<div id="demo-screen" dir="ltr">
+  <div class="demo-topbar">
+    <button class="btn btn-ghost btn-sm" onclick="closeDemo()">← Back</button>
+    <div class="demo-topbar-title">Customer Conversations <span>· Live demo</span></div>
+  </div>
+  <div class="demo-body">
+    <div class="conv-layout demo-conv-layout">
+      <div class="card conv-list" id="demo-conv-list"></div>
+      <div class="card conv-detail" id="demo-conv-detail"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= APP SHELL ================= -->
+<div id="app">
+  <div class="overlay" id="overlay" onclick="toggleSidebar(false)"></div>
+
+  <aside class="sidebar" id="sidebar">
+    <div class="login-logo">
+      <svg width="180" height="60" viewBox="0 0 300 100" role="img" aria-label="FlowOS" style="overflow:visible" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#flowos-logo-dark" xlink:href="#flowos-logo-dark"/></svg>
+      <div>
+        <div class="logo-sub">יהודה כהן — מספרה</div>
+      </div>
+    </div>
+
+    <div class="nav-section-label">שימוש יומיומי</div>
+    <div class="nav-item active" data-screen="dashboard" onclick="navigate('dashboard')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>
+      דשבורד
+    </div>
+    <div class="nav-item" data-screen="conversations" onclick="navigate('conversations')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 1 1-3.3-6.5"/><path d="M21 3v6h-6"/></svg>
+      שיחות
+      <span class="nav-badge" id="nav-unread">3</span>
+    </div>
+    <div class="nav-item" data-screen="ai-tasks" onclick="navigate('ai-tasks')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7z"/></svg>
+      משימות AI
+      <span class="nav-badge" id="nav-tasks-open">5</span>
+    </div>
+    <div class="nav-item" data-screen="ai-activity" onclick="navigate('ai-activity')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.2 2"/></svg>
+      פעילות AI
+    </div>
+    <div class="nav-item" data-screen="history" onclick="navigate('history')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v5h5"/><path d="M3.5 13a8.5 8.5 0 1 0 2.3-6"/><path d="M12 8v5l3.2 2"/></svg>
+      היסטוריה
+    </div>
+    <div class="nav-item" data-screen="customers" onclick="navigate('customers')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c.8-3.2 3-5 5.5-5s4.7 1.8 5.5 5"/><circle cx="17" cy="8.5" r="2.4"/><path d="M15.5 14c2 .2 3.6 1.8 4.2 5"/></svg>
+      לקוחות
+    </div>
+
+    <div class="nav-section-label">ניהול והגדרות</div>
+    <div class="nav-item" data-screen="business-setup" onclick="navigate('business-setup')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3 3 8.5V19h6v-6h6v6h6V8.5L12 3z"/></svg>
+      הקמת העסק
+    </div>
+    <div class="nav-item" data-screen="connections" onclick="navigate('connections')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8.5 12a3.5 3.5 0 0 1 0-5l2-2a3.5 3.5 0 0 1 5 5l-1 1"/><path d="M15.5 12a3.5 3.5 0 0 1 0 5l-2 2a3.5 3.5 0 0 1-5-5l1-1"/></svg>
+      חיבורים
+    </div>
+    <div class="nav-item" data-screen="settings" onclick="navigate('settings')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.36a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.64 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.64 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.55 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.36 9a1.7 1.7 0 0 0 1.55 1H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.55 1z"/></svg>
+      הגדרות
+    </div>
+
+    <div class="sidebar-foot">
+      <div class="avatar-round">יכ</div>
+      <div class="who">יהודה כהן<span>בעל העסק</span></div>
+      <div class="logout-link" onclick="doLogout()">יציאה</div>
+    </div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <div class="hamburger" onclick="toggleSidebar(true)">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+      </div>
+      <div class="login-logo" style="margin:0;">
+        <svg width="150" height="50" viewBox="0 0 300 100" role="img" aria-label="FlowOS" style="overflow:visible" xmlns:xlink="http://www.w3.org/1999/xlink"><use href="#flowos-logo-light" xlink:href="#flowos-logo-light"/></svg>
+      </div>
+      <div class="avatar-round" style="width:30px;height:30px;font-size:11px;">יכ</div>
+    </div>
+
+    <!-- ---------- DASHBOARD ---------- -->
+    <section class="screen active" id="screen-dashboard">
+      <div class="page-head">
+        <div>
+          <h1>בוקר טוב, יהודה 👋</h1>
+          <p>הנה מה שקורה בעסק שלך היום, יום רביעי 16 בספטמבר</p>
+        </div>
+      </div>
+
+      <div class="summary-strip">
+        <div class="icon-wrap">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M13 3 4 14h6l-1 7 9-11h-6l1-7z"/></svg>
+        </div>
+        <div class="txt">
+          <div class="lbl">סיכום יומי מבוסס AI</div>
+          <div class="val">התקבלו 12 הודעות חדשות מ־5 לקוחות. יש 3 פריטים שממתינים לאישורך ולקוח אחד שממתין מעל 50 דקות לתגובה — כדאי לטפל בהם קודם.</div>
+        </div>
+      </div>
+
+      <div class="card-head" style="padding:0;border:none;margin-bottom:10px;">
+        <h3 style="font-size:13.5px;color:var(--ink-soft);font-weight:600;">סקירת היום</h3>
+      </div>
+      <div class="stat-grid" id="today-overview"></div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-head">
+            <h3>🧭 ממתין לאישור שלך</h3>
+            <span class="count-pill" id="approvals-count">0 פריטים</span>
+          </div>
+          <div id="pending-approvals-list"></div>
+        </div>
+        <div class="card">
+          <div class="card-head">
+            <h3>🚩 לקוחות שדורשים תשומת לב</h3>
+            <span class="count-pill" id="attention-count">0 פריטים</span>
+          </div>
+          <div id="attention-list"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-head">
+          <h3>⚡ פעילות AI היום</h3>
+          <span class="count-pill">סה״כ 24 פעולות</span>
+        </div>
+        <div class="stat-grid" id="ai-activity-today" style="padding:16px 18px;margin-bottom:0;"></div>
+      </div>
+    </section>
+
+    <!-- ---------- AI TASKS ---------- -->
+    <section class="screen" id="screen-ai-tasks">
+      <div class="page-head">
+        <div>
+          <h1>משימות AI</h1>
+          <p>פעולות שה-AI מציע לבצע, ממתינות לטיפולך</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3>✅ כל המשימות המומלצות</h3>
+          <span class="count-pill" id="tasks-count">5 משימות</span>
+        </div>
+        <div id="tasks-list"></div>
+      </div>
+    </section>
+
+
+
+    <!-- ---------- CUSTOMERS ---------- -->
+    <section class="screen" id="screen-customers">
+      <div class="page-head">
+        <div>
+          <h1>לקוחות</h1>
+          <p>כל הלקוחות שלך, במקום אחד</p>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-head">
+          <h3>👥 מצאי לקוחות</h3>
+          <span class="count-pill" id="customers-count">0 לקוחות</span>
+        </div>
+        <div id="customers-directory-list"></div>
+      </div>
+    </section>
+
+    <!-- ---------- CONVERSATIONS ---------- -->
+    <section class="screen" id="screen-conversations">
+      <div class="page-head">
+        <div>
+          <h1>שיחות</h1>
+        </div>
+      </div>
+      <div class="conv-layout">
+        <div class="card conv-list" id="conv-list"></div>
+        <div class="card conv-detail mobile-hide" id="conv-detail"></div>
+      </div>
+    </section>
+
+    <!-- ---------- CONNECTIONS ---------- -->
+    <section class="screen" id="screen-connections">
+      <div class="page-head">
+        <div>
+          <h1>חיבורים</h1>
+          <p>חברו את ערוצי התקשורת שלכם כדי ש־FlowOS יוכל לרכז את כל השיחות</p>
+        </div>
+      </div>
+      <div class="card" id="conn-list"></div>
+    </section>
+
+    <!-- ---------- AI ACTIVITY CENTER ---------- -->
+    <section class="screen" id="screen-ai-activity">
+      <div class="page-head">
+        <div>
+          <h1>AI Activity Center</h1>
+          <p>מה ה־AI עשה עבורך היום — בזמן אמת, גם כשלא היית במערכת</p>
+        </div>
+      </div>
+
+      <div class="live-strip">
+        <span class="live-dot"></span>
+        <span class="txt">AI פעיל ברקע כרגע <span>· ממשיך לטפל בלקוחות גם עכשיו</span></span>
+      </div>
+
+      <div class="tabs" id="activity-tabs">
+        <div class="tab active" data-filter="all">All Activity</div>
+        <div class="tab" data-filter="approved">Approved</div>
+        <div class="tab" data-filter="waiting">Waiting for Approval</div>
+        <div class="tab" data-filter="completed">Completed</div>
+      </div>
+
+      <div class="card">
+        <div class="activity-timeline" id="activity-list"></div>
+      </div>
+
+      <div class="activity-summary">
+        <div class="s-head">
+          <div class="lbl">Summary · היום</div>
+          <h3>עוד יום שבו FlowOS עבד בשבילך</h3>
+        </div>
+        <div class="s-stats">
+          <div class="s-stat"><b>24</b><span>משימות בוצעו</span></div>
+          <div class="s-stat"><b>7</b><span>ממתינות לאישור</span></div>
+          <div class="s-stat"><b>15</b><span>שעות עבודה נחסכו</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- BUSINESS SETUP ---------- -->
+    <section class="screen" id="screen-business-setup">
+      <div class="page-head">
+        <div>
+          <h1>Business Setup</h1>
+          <p>כך הגדיר יהודה את ה־AI שלו בפעם הראשונה</p>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <div class="setup-section">
+          <div class="setup-section-head">
+            <div class="setup-badge b1">1</div>
+            <h4>פרטי העסק</h4>
+          </div>
+          <p class="hint">המידע הבסיסי שה־AI מציג ומשתמש בו מול לקוחות — נערך כאן בלבד</p>
+          <div class="field-grid">
+            <div class="field"><label>שם העסק</label><input type="text" id="bs-name" value="מספרת יהודה כהן"></div>
+            <div class="field"><label>טלפון</label><input type="text" id="bs-phone" value="054-4444717"></div>
+            <div class="field"><label>כתובת</label><input type="text" id="bs-address" value="רחוב הרצל 18, פתח תקווה"></div>
+            <div class="field"><label>תחום עיסוק</label><input type="text" id="bs-type" value="מספרה וטיפוח לגברים ונשים"></div>
+            <div class="field"><label>אזור שירות</label><input type="text" id="bs-area" value="פתח תקווה והסביבה"></div>
+          </div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-head">
+            <div class="setup-badge b1">2</div>
+            <h4>שעות פעילות</h4>
+          </div>
+          <p class="hint">השעות שבהן ה־AI יציע תורים ללקוחות</p>
+          <div id="hours-list"></div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-head">
+            <div class="setup-badge b1">3</div>
+            <h4>שירותים</h4>
+          </div>
+          <p class="hint">הרשימה שה־AI מציע כשלקוח שואל "מה יש לכם"</p>
+          <div class="chip-row" id="services-list"></div>
+          <div class="add-chip-form">
+            <input type="text" id="new-service-input" placeholder="הוספת שירות חדש...">
+            <button class="btn btn-ghost btn-sm" onclick="addService()">הוספה</button>
+          </div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-head">
+            <div class="setup-badge b2">4</div>
+            <h4>מה ה־AI יכול לעשות לבד</h4>
+          </div>
+          <p class="hint">פעולות שה־AI מבצע באופן עצמאי, ללא צורך באישורך</p>
+          <div class="setup-grid" id="setup-allowed"></div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-head">
+            <div class="setup-badge b3">5</div>
+            <h4>מה דורש את אישורך</h4>
+          </div>
+          <p class="hint">ה־AI יכין את הפעולה, אך ישלח אותה רק אחרי שתאשר</p>
+          <div class="setup-grid" id="setup-approval"></div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-head">
+            <div class="setup-badge b4">6</div>
+            <h4>מה אסור ל־AI לעשות</h4>
+          </div>
+          <p class="hint">גבולות קבועים שה־AI לעולם לא יחצה, גם אם הלקוח ילחץ</p>
+          <div class="setup-grid" id="setup-forbidden"></div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-head">
+            <div class="setup-badge b5">7</div>
+            <h4>חיבורים</h4>
+          </div>
+          <p class="hint">הערוצים שדרכם ה־AI מתקשר עם הלקוחות שלך</p>
+          <div id="setup-connections" style="border:1px solid var(--line);border-radius:var(--radius-s);overflow:hidden;"></div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-head">
+            <div class="setup-badge b3">8</div>
+            <h4>Custom Business Rules</h4>
+          </div>
+          <p class="hint">חוקים והוראות אישיות שיהודה הוסיף בעצמו, מעבר לרשימות הקבועות למעלה</p>
+          <div id="rules-list"></div>
+          <div class="rule-add-form">
+            <input type="text" id="new-rule-input" placeholder="Add New Rule — לדוגמה: אל תענה ללקוחות אחרי 22:00">
+            <button class="btn btn-primary btn-sm" onclick="addRule()">＋ Add New Rule</button>
+          </div>
+        </div>
+
+        <div class="setup-section">
+          <div class="setup-section-head">
+            <div class="setup-badge b1">9</div>
+            <h4>תיאור העסק והוראות ל־AI</h4>
+          </div>
+          <p class="hint">ספר ל־AI איך העסק שלך עובד, בשפה חופשית — לא רשימת הגדרות, אלא הסבר כמו לעובד חדש</p>
+          <div class="ai-learn-box">
+            <textarea id="ai-learn-text" placeholder="ספר ל-AI איך העסק שלי עובד...">אנחנו עסק משפחתי שפעיל כבר 15 שנה באזור המרכז.
+חשוב לנו מאוד שירות אישי וחם — לא לענות ללקוחות כמו רובוט.
+אנחנו מעדיפים לטפח לקוחות חוזרים על פני עסקאות חד-פעמיות.
+זמן התגובה המקסימלי שלנו ללקוח הוא שעתיים בשעות הפעילות.
+ענה תמיד בעברית, בנימוס ובקצרה.</textarea>
+            <div class="ai-learn-foot">
+              <span class="tip">✨ ה־AI משתמש בטקסט הזה כדי להבין את הטון והערכים של העסק, לא רק את הכללים</span>
+              <button class="btn btn-ghost btn-sm" onclick="saveAiLearn()">שמירה</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-section-head" style="margin:0 2px 10px;">
+        <div class="setup-badge b6">10</div>
+        <h4>סיכום</h4>
+      </div>
+      <div class="setup-ready-card">
+        <div class="ready-icon">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <div class="ready-txt">
+          <h3>FlowOS מוכן לפעולה</h3>
+          <p>נדרש אישורך רק עבור פעולות רגישות — כל השאר רץ אוטומטית.</p>
+        </div>
+        <div class="ready-stat"><b>85%</b><span>מהפניות מטופלות לבד ע"י AI</span></div>
+      </div>
+    </section>
+
+    <!-- ---------- SETTINGS ---------- -->
+    <section class="screen" id="screen-settings">
+      <div class="page-head">
+        <div>
+          <h1>הגדרות</h1>
+          <p>העדפות מערכת, חשבון וצוות — פרטי העסק מנוהלים במסך הקמת העסק</p>
+        </div>
+      </div>
+
+      <div class="profile-edit-banner">
+        <div class="pe-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8"><path d="M12 3 3 8.5V19h6v-6h6v6h6V8.5L12 3z"/></svg>
+        </div>
+        <div class="pe-txt">
+          <h3>פרופיל העסק</h3>
+          <p>שם, פרטי קשר, שעות פעילות, שירותים והוראות ל־AI — כל אלה מנוהלים במקום אחד</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="navigate('business-setup')">✏️ Edit Business Profile</button>
+      </div>
+
+      <div class="card" style="margin-bottom:18px;">
+        <div class="settings-section">
+          <h4>חשבון</h4>
+          <p class="hint">פרטי ההתחברות שלך למערכת</p>
+          <div class="field-grid">
+            <div class="field"><label>שם משתמש</label><input type="text" value="יהודה כהן"></div>
+            <div class="field"><label>אימייל</label><input type="email" value="yehuda@my-business.co.il"></div>
+          </div>
+          <div class="field" style="margin-top:14px;max-width:320px;">
+            <label>סיסמה</label>
+            <div style="display:flex;gap:8px;">
+              <input type="password" value="••••••••••••" disabled style="flex:1;">
+              <button class="btn btn-ghost btn-sm" onclick="showToast('נשלח קישור לאיפוס סיסמה למייל שלך')">שינוי</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>התראות</h4>
+          <p class="hint">איך תרצה לקבל עדכונים מ־FlowOS</p>
+          <div class="setup-grid" id="notif-settings"></div>
+        </div>
+
+        <div class="settings-section">
+          <h4>הגדרות AI</h4>
+          <p class="hint">עד כמה ה־AI פועל באופן עצמאי בשיחות עם לקוחות</p>
+          <div class="ai-mode-row" id="ai-mode-row"></div>
+          <div style="margin-top:16px;">
+            <label style="display:block;font-size:12.5px;color:var(--ink-soft);margin-bottom:8px;">רמת עצמאות ה־AI</label>
+            <div class="segmented" id="autonomy-segmented"></div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <h4>צוות והרשאות</h4>
+          <p class="hint">מי בעסק שלך יכול לגשת ל־FlowOS</p>
+          <div id="team-list"></div>
+          <button class="btn btn-ghost btn-sm" style="margin-top:10px;" onclick="showToast('הזמנה נשלחה בהצלחה ✓')">＋ הזמנת עובד חדש</button>
+        </div>
+
+        <div class="settings-section">
+          <h4>מנוי</h4>
+          <p class="hint">פרטי התוכנית והחיוב שלך</p>
+          <div class="plan-card">
+            <div class="plan-main">
+              <span class="plan-badge">Pro</span>
+              <div class="plan-txt"><b>תוכנית Pro</b><span>₪149 לחודש · חיוב הבא ב־1.10.2026</span></div>
+            </div>
+            <button class="btn btn-ghost btn-sm" onclick="showToast('מעבר למסך שדרוג תוכנית')">שדרוג תוכנית</button>
+          </div>
+        </div>
+
+        <div class="settings-foot">
+          <button class="btn btn-ghost">ביטול</button>
+          <button class="btn btn-primary" onclick="saveSettings()">שמירת שינויים</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------- HISTORY ---------- -->
+    <section class="screen" id="screen-history">
+      <div class="page-head">
+        <div>
+          <h1>היסטוריה</h1>
+          <p>כל מה ש־FlowOS עשה עבורכם</p>
+        </div>
+      </div>
+      <div class="tabs" id="hist-tabs">
+        <div class="tab active" data-tab="all">הכל</div>
+        <div class="tab" data-tab="ai">פעולות AI</div>
+        <div class="tab" data-tab="sent">הודעות שנשלחו</div>
+        <div class="tab" data-tab="activity">לוג פעילות</div>
+      </div>
+      <div class="card hist-list-card" id="history-list"></div>
+    </section>
+
+  </main>
+</div>
+
+<div id="toast"></div>
+<div id="notif-host"></div>
+
+<script>
+/* ================= DATA ================= */
+let tasks = [
+  {title:"לשלוח תזכורת תור לדנה לוי (מחר 10:00)", sub:"נוצר אוטומטית ע\"י AI", done:false},
+  {title:"לאשר הזמנה חדשה של יוסי מזרחי", sub:"ממתין לאישורך", done:false},
+  {title:"לחזור לנועה שגיא — ליד חם מוואטסאפ", sub:"ממתינה 12 דקות", done:false},
+  {title:"לעדכן שעות פעילות לחג הקרוב", sub:"הוצע ע\"י AI על סמך שאלות לקוחות", done:true},
+  {title:"לבדוק תלונה של לקוח על איחור", sub:"הועבר אלייך ישירות ע\"י ה-AI", done:false},
+];
+
+const conversations = [
+  {
+    id:1, name:"דוד כהן", phone:"050-555-1234", unread:2, status:"pending", ts:641, typing:false,
+    messages:[
+      {from:"in", text:"שלום, כמה עולה התקנה?", time:"10:38"},
+      {from:"in", text:"מדובר במזגן אחד בסלון, קומה 3 עם מעלית", time:"10:41"},
+    ],
+    draft:{
+      text:"שלום, בהתאם לפרטים שסיפקת, עלות ההתקנה היא 1,450 ₪.",
+      card:{type:"quote", id:"2041", rows:[["התקנה","1,200 ₪"],["חומרים ואביזרים","250 ₪"]], total:"1,450 ₪"},
+      editing:false,
+    },
+  },
+  {
+    id:2, name:"שרה לוי", phone:"052-777-8821", unread:2, status:"meeting", ts:631, typing:false,
+    messages:[
+      {from:"in", text:"היי, אשמח לקבוע פגישת ייעוץ בשבוע הבא", time:"10:28"},
+      {from:"in", text:"עדיף ביום שלישי אחה״צ, אם אפשר", time:"10:31"},
+    ],
+    draft:{
+      text:"היי שרה, קבעתי לך פגישת ייעוץ ליום שלישי 22/9 בשעה 14:00. נשמח לראותך!",
+      card:{type:"meeting", rows:[["תאריך","יום שלישי, 22/9"],["שעה","14:00–14:45"],["יומן","פנוי ✓"]]},
+      editing:false,
+    },
+  },
+  {
+    id:3, name:"אבי מזרחי", phone:"054-310-4477", unread:3, status:"unhappy", ts:595, typing:false,
+    messages:[
+      {from:"in", text:"שלום, ביקשתי הצעה לפני שלושה ימים ועדיין לא קיבלתי מענה", time:"09:12"},
+      {from:"in", text:"זו הפעם השנייה שאני פונה. זה ממש לא מקצועי", time:"09:40"},
+      {from:"in", text:"אם לא אקבל תשובה היום אני עובר למתחרים", time:"09:55"},
+    ],
+    draft:{
+      text:"אבי שלום, אני מתנצל על ההמתנה — זו לא הרמה שאנחנו מציבים לעצמנו. אני מתקשר אליך היום בטלפון כדי לסגור את הנושא אישית.",
+      card:{type:"alert", score:18, rows:[["ממתין ללא מענה","3 ימים"],["פניות חוזרות","2"]]},
+      editing:false,
+    },
+  },
+  {
+    id:4, name:"רונית אברהם", phone:"053-909-2210", unread:0, status:"resolved", ts:560, typing:false,
+    messages:[
+      {from:"in", text:"בוקר טוב, עד איזו שעה אתם פתוחים היום?", time:"09:18"},
+      {from:"out", text:"בוקר טוב רונית! היום אנחנו פתוחים עד 19:00.", time:"09:18", by:"ai", ticks:"read"},
+      {from:"in", text:"מעולה, תודה!", time:"09:20"},
+    ],
+    draft:null,
+  },
+];
+
+let connections = [
+  {name:"WhatsApp Business", desc:"קבלת ומענה על הודעות לקוחות", icon:"💬", color:"#25D366", connected:true, syncedAt:"לפני 3 דקות"},
+  {name:"Gmail", desc:"ריכוז פניות שמגיעות במייל", icon:"✉️", color:"#EA4335", connected:true, syncedAt:"לפני 20 דקות"},
+  {name:"Facebook", desc:"הודעות מהעמוד העסקי", icon:"👍", color:"#1877F2", connected:false, syncedAt:null},
+  {name:"Instagram", desc:"הודעות ותגובות מהעמוד העסקי", icon:"📷", color:"#C24F7A", connected:true, syncedAt:"לפני שעה"},
+  {name:"Google Calendar", desc:"סנכרון תורים ופגישות", icon:"📅", color:"#4285F4", connected:false, syncedAt:null},
+];
+
+let services = ["תספורת גברים", "תספורת נשים", "צביעה", "החלקה", "טיפול פנים"];
+
+const hours = [
+  {day:"ראשון", from:"09:00", to:"19:00", closed:false},
+  {day:"שני", from:"09:00", to:"19:00", closed:false},
+  {day:"שלישי", from:"09:00", to:"19:00", closed:false},
+  {day:"רביעי", from:"09:00", to:"19:00", closed:false},
+  {day:"חמישי", from:"09:00", to:"20:00", closed:false},
+  {day:"שישי", from:"09:00", to:"14:00", closed:false},
+  {day:"שבת", from:"", to:"", closed:true},
+];
+
+const history = [
+  {type:"ai", day:"היום", icon:"🤖", color:"var(--primary)", title:"<b>AI</b> שלח תזכורת תור ל־שירה לוי", time:"08:15"},
+  {type:"sent", day:"היום", icon:"📤", color:"#3E6CA8", title:"נשלחה הודעת וואטסאפ ל־רותם ביטון", time:"11:52"},
+  {type:"ai", day:"היום", icon:"🤖", color:"var(--primary)", title:"<b>AI</b> סיווג ליד חדש (נועה שגיא) כ\"חם\"", time:"12:31"},
+  {type:"activity", day:"היום", icon:"🔌", color:"var(--ink-faint)", title:"החיבור ל־Instagram סונכרן בהצלחה", time:"12:00"},
+  {type:"sent", day:"היום", icon:"📤", color:"#3E6CA8", title:"נשלח מחירון ל־אבי רון באינסטגרם", time:"11:14"},
+  {type:"ai", day:"אתמול", icon:"🤖", color:"var(--primary)", title:"<b>AI</b> אישר תור חוזר ל־דניאל עמר", time:"18:05"},
+  {type:"activity", day:"אתמול", icon:"👤", color:"var(--ink-faint)", title:"התחברת למערכת מהדפדפן", time:"08:02"},
+  {type:"ai", day:"אתמול", icon:"🤖", color:"var(--primary)", title:"<b>AI</b> העביר אלייך תלונת לקוח לטיפול אישי", time:"15:41"},
+  {type:"sent", day:"לפני יומיים", icon:"📤", color:"#3E6CA8", title:"נשלח מייל תזכורת ל־משה אדרי", time:"09:30"},
+  {type:"activity", day:"לפני יומיים", icon:"🔌", color:"var(--ink-faint)", title:"חובר חשבון Gmail חדש", time:"09:00"},
+];
+
+/* ================= NAV / SCREENS ================= */
+function doLogin(e){
+  if(e && e.preventDefault) e.preventDefault();
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').classList.add('active');
+  scheduleIncoming();
+  return false;
+}
+
+/* Bind login interactions without depending on native HTML form submission,
+   since some mobile browsers (notably Safari on iPad/iPhone when a page is
+   opened as a local file) can be inconsistent about firing the "submit"
+   event or about built-in field validation. Binding directly to the button
+   (and to Enter/Return on the fields) works reliably everywhere. */
+function initLogin(){
+  const btn = document.getElementById('login-btn');
+  const emailField = document.getElementById('login-email');
+  const passwordField = document.getElementById('login-password');
+  if(btn){
+    btn.addEventListener('click', doLogin);
+    btn.addEventListener('touchend', function(e){ e.preventDefault(); doLogin(e); }, {passive:false});
+  }
+  [emailField, passwordField].forEach(function(field){
+    if(!field) return;
+    field.addEventListener('keydown', function(e){
+      if(e.key === 'Enter'){ doLogin(e); }
+    });
+  });
+}
+function doLogout(){
+  document.getElementById('app').classList.remove('active');
+  document.getElementById('login-screen').style.display='flex';
+}
+function navigate(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById('screen-'+name).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('active', n.dataset.screen===name));
+  toggleSidebar(false);
+  window.scrollTo(0,0);
+}
+function toggleSidebar(open){
+  document.getElementById('sidebar').classList.toggle('open', open);
+  document.getElementById('overlay').classList.toggle('show', open);
+}
+
+/* ================= TOAST ================= */
+let toastTimer;
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>t.classList.remove('show'), 2600);
+}
+
+/* ================= DASHBOARD RENDER ================= */
+function initials(name){ return name.trim().split(' ').map(w=>w[0]).slice(0,2).join(''); }
+function avatarColor(str){
+  const colors=['#1F5C4A','#DD8A3C','#3E6CA8','#C24F7A','#7A5CC2','#2E8B57'];
+  let h=0; for(const c of str) h+=c.charCodeAt(0);
+  return colors[h%colors.length];
+}
+
+/* ---- Today overview ---- */
+const todayOverview = [
+  {label:"הודעות חדשות", value:12},
+  {label:"הצעות מחיר שנשלחו", value:5},
+  {label:"בקשות לפגישה", value:3},
+  {label:"משימות פתוחות", value:6},
+];
+function renderTodayOverview(){
+  const el = document.getElementById('today-overview'); el.innerHTML = '';
+  todayOverview.forEach(s => {
+    el.innerHTML += `<div class="stat-tile"><b>${s.value}</b><span>${s.label}</span></div>`;
+  });
+}
+
+/* ---- AI activity today ---- */
+const aiActivityToday = [
+  {label:"הודעות שנענו ע\"י AI", value:12},
+  {label:"תזכורות שנשלחו", value:4},
+  {label:"פגישות שנקבעו", value:3},
+  {label:"מעקבים שהושלמו", value:5},
+];
+function renderAIActivityToday(){
+  const el = document.getElementById('ai-activity-today'); el.innerHTML = '';
+  aiActivityToday.forEach(s => {
+    el.innerHTML += `<div class="stat-tile stat-tile-accent"><b>${s.value}</b><span>${s.label}</span></div>`;
+  });
+}
+
+/* ---- Pending approvals (AI suggestions waiting for owner) ---- */
+let pendingApprovals = [
+  {id:1, convId:1, name:"דוד כהן", action:"לשלוח הצעת מחיר להתקנה — 1,450 ₪"},
+  {id:2, convId:2, name:"שרה לוי", action:"לאשר פגישת ייעוץ ליום שלישי 22/9 בשעה 14:00"},
+  {id:3, convId:3, name:"אבי מזרחי", action:"לשלוח התנצלות ולהתקשר ללקוח היום"},
+];
+let editingApprovalId = null;
+
+function renderPendingApprovals(){
+  const el = document.getElementById('pending-approvals-list'); el.innerHTML = '';
+  pendingApprovals.forEach(item => {
+    if (editingApprovalId === item.id){
+      el.innerHTML += `<div class="approval-row">
+        <div class="main">
+          <div class="name">${item.name}</div>
+          <div class="approval-edit-box">
+            <textarea id="edit-text-${item.id}" rows="2">${item.action}</textarea>
+          </div>
+        </div>
+        <div class="approval-actions">
+          <button class="btn btn-primary btn-sm" onclick="saveApprovalEdit(${item.id})">שמירה</button>
+          <button class="btn btn-ghost btn-sm" onclick="cancelApprovalEdit()">ביטול</button>
+        </div>
+      </div>`;
+    } else {
+      el.innerHTML += `<div class="approval-row">
+        <div class="main">
+          <div class="name">${item.name}</div>
+          <div class="action">${item.action}</div>
+        </div>
+        <div class="approval-actions">
+          <button class="btn btn-primary btn-sm" onclick="approveItem(${item.id})">אישור</button>
+          <button class="btn btn-ghost btn-sm" onclick="startApprovalEdit(${item.id})">עריכה</button>
+          <button class="btn btn-ghost btn-sm" onclick="rejectItem(${item.id})">דחייה</button>
+        </div>
+      </div>`;
+    }
+  });
+  if (pendingApprovals.length === 0){
+    el.innerHTML = '<div style="padding:24px 18px;color:var(--ink-faint);font-size:12.5px;text-align:center;">אין פריטים הממתינים לאישור כרגע</div>';
+  }
+  document.getElementById('approvals-count').textContent = pendingApprovals.length+' פריטים';
+}
+function approveItem(id){
+  const it = pendingApprovals.find(i => i.id === id);
+  if (it && it.convId){ approveConv(it.convId); return; }
+  pendingApprovals = pendingApprovals.filter(i => i.id !== id);
+  renderPendingApprovals();
+  showToast('האישור בוצע ✓');
+}
+function rejectItem(id){
+  const it = pendingApprovals.find(i => i.id === id);
+  if (it && it.convId){ rejectConv(it.convId); return; }
+  pendingApprovals = pendingApprovals.filter(i => i.id !== id);
+  renderPendingApprovals();
+  showToast('ההצעה נדחתה');
+}
+function startApprovalEdit(id){
+  editingApprovalId = id;
+  renderPendingApprovals();
+}
+function cancelApprovalEdit(){
+  editingApprovalId = null;
+  renderPendingApprovals();
+}
+function saveApprovalEdit(id){
+  const textarea = document.getElementById('edit-text-'+id);
+  const item = pendingApprovals.find(i => i.id === id);
+  if (item && textarea) item.action = textarea.value.trim() || item.action;
+  editingApprovalId = null;
+  renderPendingApprovals();
+  showToast('העדכון נשמר ✓');
+}
+
+/* ---- Customers requiring attention ---- */
+const attentionItems = [
+  {name:"אבי מזרחי", detail:"לקוח לא מרוצה — ממתין 3 ימים למענה", icon:"⚠️", cls:"unhappy", convId:3},
+  {name:"דוד כהן", detail:"ממתין/ה 14 דקות לתגובה", icon:"⏳", cls:"waiting", convId:1},
+  {name:"טל כרמי", detail:"ביקש/ה שיחזרו אליו/ה בטלפון בנושא שעות פתיחה", icon:"📞", cls:"callback"},
+];
+function renderAttention(){
+  const el = document.getElementById('attention-list'); el.innerHTML = '';
+  attentionItems.forEach(a => {
+    el.innerHTML += `<div class="attention-row">
+      <div class="attention-icon ${a.cls}">${a.icon}</div>
+      <div class="main">
+        <div class="name">${a.name}</div>
+        <div class="sub">${a.detail}</div>
+      </div>
+      <button class="btn btn-ghost btn-sm" onclick="${a.convId ? `navigate('conversations');openConversation(${a.convId})` : `showToast('נפתח טיפול עבור ${a.name}')`}">טיפול</button>
+    </div>`;
+  });
+  document.getElementById('attention-count').textContent = attentionItems.length+' פריטים';
+}
+
+/* ---- Customers directory ---- */
+const customersList = [
+  {name:"נועה שגיא", channel:"וואטסאפ", status:"ליד חם", statusClass:"tag-hot", last:"לפני 12 דק׳"},
+  {name:"אבי רון", channel:"אינסטגרם", status:"ליד חם", statusClass:"tag-hot", last:"לפני 40 דק׳"},
+  {name:"שירה לוי", channel:"פייסבוק", status:"פעיל", statusClass:"tag-ok", last:"לפני שעה"},
+  {name:"דניאל עמר", channel:"וואטסאפ", status:"לקוח קבוע", statusClass:"tag-ok", last:"לפני שעתיים"},
+  {name:"רותם ביטון", channel:"וואטסאפ", status:"ממתין לתגובה", statusClass:"tag-wait", last:"לפני 52 דק׳"},
+  {name:"משה אדרי", channel:"אימייל", status:"דורש טיפול", statusClass:"tag-wait", last:"לפני 1.5 שעות"},
+  {name:"טל כרמי", channel:"פייסבוק", status:"דורש טיפול", statusClass:"tag-wait", last:"לפני 3 שעות"},
+];
+function renderCustomersDirectory(){
+  const el = document.getElementById('customers-directory-list'); el.innerHTML = '';
+  customersList.forEach(c => {
+    el.innerHTML += `<div class="list-row">
+      <div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
+      <div class="main"><div class="name">${c.name}</div><div class="sub">${c.channel} · עדכון אחרון ${c.last}</div></div>
+      <span class="tag ${c.statusClass}">${c.status}</span>
+    </div>`;
+  });
+  document.getElementById('customers-count').textContent = customersList.length+' לקוחות';
+}
+
+function renderTasks(){
+  const el=document.getElementById('tasks-list'); el.innerHTML='';
+  tasks.forEach((t,i)=>{
+    el.innerHTML+=`<div class="task-row ${t.done?'done':''}">
+      <div class="task-check ${t.done?'done':''}" onclick="toggleTask(${i})">
+        ${t.done?'<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6 9 17l-5-5"/></svg>':''}
+      </div>
+      <div class="t-main"><div class="t-title">${t.title}</div><div class="t-sub">${t.sub}</div></div>
+    </div>`;
+  });
+  const open = tasks.filter(t=>!t.done).length;
+  document.getElementById('tasks-count').textContent = open+' פתוחות';
+  const navBadge = document.getElementById('nav-tasks-open');
+  if (navBadge) navBadge.textContent = open;
+}
+function toggleTask(i){
+  tasks[i].done = !tasks[i].done;
+  renderTasks();
+  if(tasks[i].done) showToast('המשימה סומנה כבוצעה ✓');
+}
+
+/* ================= CONVERSATIONS ================= */
+const convStatus = {
+  pending:  {label:"ממתין לאישור בעל העסק", cls:"tag-hot"},
+  meeting:  {label:"פגישה ממתינה לאישור", cls:"tag-info"},
+  unhappy:  {label:"לקוח לא מרוצה", cls:"tag-wait"},
+  resolved: {label:"AI טיפל", cls:"tag-ok"},
+  working:  {label:"AI מכין תשובה", cls:"tag-info"},
+  quoted:   {label:"הצעת מחיר נשלחה", cls:"tag-ok"},
+  booked:   {label:"פגישה נקבעה", cls:"tag-ok"},
+  followup: {label:"ממתין לשיחת טלפון", cls:"tag-info"},
+  sent:     {label:"נשלח", cls:"tag-ok"},
+  rejected: {label:"דורש טיפול ידני", cls:"tag-warm"},
+};
+let activeConvId = null;
+let demoMinutes = 10*60+52;
+let incomingScheduled = false;
+
+function nowTime(){
+  demoMinutes += 2;
+  const h = Math.floor(demoMinutes/60)%24, m = demoMinutes%60;
+  return String(h).padStart(2,'0')+':'+String(m).padStart(2,'0');
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function getConv(id){ return conversations.find(x=>x.id===id); }
+function pushMsg(c,msg){ c.messages.push(msg); c.ts = demoMinutes; }
+function isConvVisible(){
+  return document.getElementById('app').classList.contains('active') &&
+         document.getElementById('screen-conversations').classList.contains('active');
+}
+function updateNavBadge(){
+  const total = conversations.reduce((n,c)=>n+c.unread,0);
+  const b = document.getElementById('nav-unread');
+  b.textContent = total;
+  b.style.display = total>0 ? '' : 'none';
+}
+function refreshConvUI(){
+  renderConvList();
+  if(activeConvId && isConvVisible()) renderChat();
+  updateNavBadge();
+}
+
+function renderConvList(){
+  const el = document.getElementById('conv-list'); el.innerHTML = '';
+  conversations.slice().sort((a,b)=>b.ts-a.ts).forEach(c=>{
+    const last = c.messages[c.messages.length-1];
+    const st = convStatus[c.status];
+    const preview = (last.from==='out' ? '<span class="tick-mini">✓✓</span> ' : '') + esc(last.text);
+    el.innerHTML += `<div class="conv-item ${activeConvId===c.id?'active':''}" onclick="openConversation(${c.id})">
+      <div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
+      <div class="main">
+        <div class="top-line"><span class="cname">${c.name}</span><span class="ctime ${c.unread?'unread':''}">${last.time}</span></div>
+        <div class="snippet">${preview}</div>
+        <div class="conv-meta">
+          <span class="tag ${st.cls}">${st.label}</span>
+          ${c.draft ? '<span class="approval-flag">נדרש אישורך</span>' : ''}
+          ${c.unread ? `<span class="unread-badge">${c.unread}</span>` : ''}
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+function bubbleHTML(m){
+  if(m.from==='sys') return `<div class="sys-chip">${esc(m.text)} · ${m.time}</div>`;
+  const out = m.from==='out';
+  const ticks = out ? `<span class="ticks ${m.ticks||'sent'}">${(m.ticks||'sent')==='sent'?'✓':'✓✓'}</span>` : '';
+  let by = '';
+  if(out && m.by==='ai') by = '<span class="msg-by">✨ נשלח אוטומטית ע״י AI</span>';
+  if(out && m.by==='owner-ai') by = '<span class="msg-by">✨ אושר ע״י בעל העסק</span>';
+  return `<div class="msg ${out?'msg-out':'msg-in'}">${by}${esc(m.text)}<span class="msg-time">${m.time}${ticks}</span></div>`;
+}
+
+function cardHTML(card){
+  if(!card) return '';
+  if(card.type==='quote'){
+    return `<div class="ai-card">
+      <div class="ai-card-head"><span>📄 הצעת מחיר #${card.id}</span><span class="ai-chip">נוצרה ע״י AI</span></div>
+      ${card.rows.map(r=>`<div class="ai-card-row"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}
+      <div class="ai-card-row total"><span>סה״כ</span><b>${card.total}</b></div>
+    </div>`;
+  }
+  if(card.type==='meeting'){
+    return `<div class="ai-card">
+      <div class="ai-card-head"><span>📅 פגישה מוצעת</span><span class="ai-chip">נבדק מול היומן</span></div>
+      ${card.rows.map(r=>`<div class="ai-card-row"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}
+    </div>`;
+  }
+  return `<div class="ai-card alert">
+    <div class="ai-card-head"><span>⚠️ לקוח לא מרוצה</span><span class="ai-chip">מומלץ: שיחה טלפונית</span></div>
+    <div class="ai-card-row"><span>שביעות רצון</span><span class="sent-wrap"><span class="sentiment-bar"><i style="width:${card.score}%"></i></span><b>${card.score}%</b></span></div>
+    ${card.rows.map(r=>`<div class="ai-card-row"><span>${r[0]}</span><b>${r[1]}</b></div>`).join('')}
+    <div class="ai-card-cta"><button class="btn btn-primary btn-sm" onclick="callCustomer()">📞 התקשר עכשיו</button></div>
+  </div>`;
+}
+
+function draftHTML(c){
+  const d = c.draft;
+  const body = d.editing
+    ? `<textarea id="draft-edit" rows="3">${esc(d.text)}</textarea>
+       <div class="draft-edit-actions">
+         <button class="btn btn-primary btn-sm" onclick="saveDraftEdit()">שמירה</button>
+         <button class="btn btn-ghost btn-sm" onclick="cancelDraftEdit()">ביטול</button>
+       </div>`
+    : esc(d.text);
+  return `<div class="draft-wrap">
+    <div class="draft-label"><span>✨ טיוטת AI</span><span class="draft-state">ממתינה לאישורך</span></div>
+    ${cardHTML(d.card)}
+    <div class="draft-bubble">${body}</div>
+  </div>`;
+}
+
+function renderChat(){
+  const el = document.getElementById('conv-detail');
+  const c = getConv(activeConvId);
+  if(!c){ el.innerHTML=''; return; }
+  const prev = document.getElementById('composer-input');
+  const typed = prev ? prev.value : '';
+  const st = convStatus[c.status];
+  let msgs = '<div class="day-chip">היום</div>';
+  c.messages.forEach(m=>{ msgs += bubbleHTML(m); });
+  if(c.typing) msgs += '<div class="msg msg-in typing"><span class="dot-flash"><span></span><span></span><span></span></span></div>';
+  if(c.draft) msgs += draftHTML(c);
+  const actions = (c.draft && !c.draft.editing) ? `<div class="conv-actions">
+      <button class="btn btn-primary btn-sm" onclick="approveConv(${c.id})">אשר ושלח</button>
+      <button class="btn btn-ghost btn-sm" onclick="startDraftEdit()">ערוך תשובה</button>
+      <button class="btn btn-ghost btn-sm btn-reject" onclick="rejectConv(${c.id})">דחה</button>
+    </div>` : '';
+  el.innerHTML = `
+    <div class="conv-detail-head">
+      <button class="conv-back" onclick="closeConvMobile()" aria-label="חזרה">→</button>
+      <div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
+      <div class="grow">
+        <div class="name">${c.name}</div>
+        <div class="meta"><span class="wa-dot"></span>WhatsApp Business · ${c.phone}</div>
+      </div>
+      <span class="tag ${st.cls}">${st.label}</span>
+    </div>
+    <div class="conv-messages" id="conv-messages">${msgs}</div>
+    ${actions}
+    <div class="composer">
+      <input id="composer-input" type="text" placeholder="כתוב הודעה..." autocomplete="off" onkeydown="if(event.key==='Enter'){sendComposer();}">
+      <button class="send-btn" onclick="sendComposer()" aria-label="שליחה">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
+      </button>
+    </div>`;
+  const inp = document.getElementById('composer-input'); inp.value = typed;
+  const box = document.getElementById('conv-messages'); box.scrollTop = box.scrollHeight;
+}
+
+function openConversation(id){
+  activeConvId = id;
+  const c = getConv(id);
+  c.unread = 0;
+  renderConvList();
+  renderChat();
+  updateNavBadge();
+  if(window.innerWidth<=980){
+    document.getElementById('conv-list').classList.add('mobile-hide');
+    document.getElementById('conv-detail').classList.remove('mobile-hide');
+  } else {
+    document.getElementById('conv-detail').classList.remove('mobile-hide');
+  }
+}
+function closeConvMobile(){
+  document.getElementById('conv-list').classList.remove('mobile-hide');
+  document.getElementById('conv-detail').classList.add('mobile-hide');
+}
+
+/* ---- draft actions ---- */
+function dropPending(cid){
+  pendingApprovals = pendingApprovals.filter(i=>i.convId!==cid);
+  if(typeof renderPendingApprovals==='function') renderPendingApprovals();
+}
+function setTicks(id,msg,val){
+  msg.ticks = val;
+  renderConvList();
+  if(activeConvId===id && isConvVisible()) renderChat();
+}
+function trackTicks(c,msg){
+  setTimeout(()=>setTicks(c.id,msg,'delivered'), 900);
+  setTimeout(()=>setTicks(c.id,msg,'read'), 2800);
+}
+function approveConv(cid){
+  const c = getConv(cid);
+  if(!c || !c.draft) return;
+  const type = c.draft.card ? c.draft.card.type : '';
+  const msg = {from:'out', text:c.draft.text, time:nowTime(), by:'owner-ai', ticks:'sent'};
+  pushMsg(c,msg);
+  c.draft = null;
+  c.status = type==='quote' ? 'quoted' : type==='meeting' ? 'booked' : 'followup';
+  dropPending(cid);
+  refreshConvUI();
+  showToast(type==='quote' ? `הצעת המחיר נשלחה ל${c.name} ✓` : type==='meeting' ? `הפגישה אושרה ונשלחה ל${c.name} ✓` : `ההודעה נשלחה ל${c.name} ✓`);
+  trackTicks(c,msg);
+}
+function rejectConv(cid){
+  const c = getConv(cid);
+  if(!c || !c.draft) return;
+  c.draft = null;
+  c.status = 'rejected';
+  pushMsg(c,{from:'sys', text:'הטיוטה נדחתה — השיחה סומנה לטיפול ידני', time:nowTime()});
+  dropPending(cid);
+  refreshConvUI();
+  showToast('הטיוטה נדחתה');
+}
+function startDraftEdit(){ const c=getConv(activeConvId); if(c&&c.draft){ c.draft.editing=true; renderChat(); const t=document.getElementById('draft-edit'); if(t) t.focus(); } }
+function cancelDraftEdit(){ const c=getConv(activeConvId); if(c&&c.draft){ c.draft.editing=false; renderChat(); } }
+function saveDraftEdit(){
+  const c=getConv(activeConvId); if(!c||!c.draft) return;
+  const t=document.getElementById('draft-edit');
+  if(t && t.value.trim()) c.draft.text = t.value.trim();
+  c.draft.editing=false;
+  renderChat();
+  showToast('התשובה עודכנה ✓');
+}
+function callCustomer(){
+  const c=getConv(activeConvId); if(!c) return;
+  pushMsg(c,{from:'sys', text:'📞 שיחה יוצאת ל־'+c.phone, time:nowTime()});
+  refreshConvUI();
+  showToast('מחייג ל'+c.name+'…');
+}
+function sendComposer(){
+  const c=getConv(activeConvId); if(!c) return;
+  const inp=document.getElementById('composer-input');
+  const v=inp.value.trim(); if(!v) return;
+  const msg={from:'out', text:v, time:nowTime(), ticks:'sent'};
+  pushMsg(c,msg);
+  inp.value='';
+  refreshConvUI();
+  trackTicks(c,msg);
+}
+
+/* ---- notifications & live incoming message ---- */
+function showNotification(c,text){
+  if(!document.getElementById('app').classList.contains('active')) return;
+  const host=document.getElementById('notif-host');
+  const card=document.createElement('div');
+  card.className='notif-card';
+  card.innerHTML=`<div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
+    <div class="n-body"><div class="n-top"><span class="n-title">${c.name}</span><span class="n-time">עכשיו</span></div>
+    <div class="n-sub">${esc(text)}</div></div>`;
+  card.onclick=()=>{ card.remove(); navigate('conversations'); openConversation(c.id); };
+  host.appendChild(card);
+  setTimeout(()=>{ card.classList.add('out'); setTimeout(()=>card.remove(),320); }, 6000);
+}
+function scheduleIncoming(){
+  if(incomingScheduled) return;
+  incomingScheduled = true;
+  setTimeout(receiveIncoming, 9000);
+}
+function receiveIncoming(){
+  const c = getConv(4);
+  const text = 'ועוד שאלה — אתם עובדים גם בימי שישי?';
+  pushMsg(c,{from:'in', text:text, time:nowTime()});
+  const viewing = isConvVisible() && activeConvId===4;
+  if(!viewing) c.unread++;
+  c.status = 'working';
+  c.typing = true;
+  refreshConvUI();
+  if(!viewing) showNotification(c,text);
+  setTimeout(()=>{
+    c.typing = false;
+    const now = isConvVisible() && activeConvId===4;
+    pushMsg(c,{from:'out', text:'כן, בימי שישי אנחנו פתוחים בין 09:00 ל־14:00.', time:nowTime(), by:'ai', ticks: now ? 'read' : 'delivered'});
+    c.status = 'resolved';
+    refreshConvUI();
+    showToast('AI השיב אוטומטית ל'+c.name+' ✓');
+  }, 2600);
+}
+
+/* ================= BUSINESS SETUP ================= */
+const setupAllowed = [
+  {label:"לענות על שאלות נפוצות", sub:"שעות פעילות, כתובת, שירותים", on:true},
+  {label:"לשלוח הצעות מחיר", sub:"לפי מחירון קבוע מראש", on:true},
+  {label:"לקבוע פגישות", sub:"בהתאם ליומן הפנוי", on:true},
+  {label:"לעקוב אחרי לקוחות", sub:"תזכורות ומעקב אוטומטי", on:true},
+];
+const setupApproval = [
+  {label:"הנחות", sub:"כל הנחה מעל המחירון", on:true},
+  {label:"ביטול פגישות", sub:"דורש אישור ידני", on:true},
+  {label:"שינוי מחירים", sub:"חריגה מהמחירון הקבוע", on:true},
+  {label:"החזר כספי", sub:"כל בקשת זיכוי מלקוח", on:true},
+];
+const setupForbidden = [
+  "להתחייב בשם העסק",
+  "לתת הנחות ללא אישור",
+  "לבטל הזמנות",
+  "לשנות מחירים",
+];
+let setupConnections = [
+  {name:"WhatsApp", icon:"💬", color:"#25D366", connected:true},
+  {name:"Email", icon:"✉️", color:"#3E6CA8", connected:true},
+  {name:"Google Calendar", icon:"📅", color:"#4285F4", connected:true},
+  {name:"Facebook Messenger", icon:"💌", color:"#1877F2", connected:false},
+];
+
+let businessRules = [
+  "אל תיתן הנחות מעל 10% ללא אישור שלי.",
+  "אל תקבע פגישות בימי שישי.",
+  "אם לקוח כועס או מתלונן, העבר אליי מיד ואל תמשיך לענות לבד.",
+  "תמיד הצע שירות תחזוקה שנתי אחרי כל התקנה.",
+];
+function renderRules(){
+  const el = document.getElementById('rules-list'); el.innerHTML = '';
+  businessRules.forEach((r,i) => {
+    el.innerHTML += `<div class="rule-row">
+      <div class="bullet">${i+1}</div>
+      <div class="txt">${r}</div>
+      <div class="rm" onclick="removeRule(${i})">✕</div>
+    </div>`;
+  });
+}
+function addRule(){
+  const input = document.getElementById('new-rule-input');
+  const v = input.value.trim();
+  if(!v) return;
+  businessRules.push(v);
+  input.value = '';
+  renderRules();
+  showToast('החוק נוסף בהצלחה ✓');
+}
+function removeRule(i){
+  businessRules.splice(i,1);
+  renderRules();
+}
+function saveAiLearn(){
+  showToast('ה־AI עדכן את ההבנה שלו לגבי העסק ✓');
+}
+
+function renderSetupToggles(id, data, amber){
+  const el = document.getElementById(id); el.innerHTML = '';
+  data.forEach((item,i) => {
+    el.innerHTML += `<div class="setup-row">
+      <label class="switch ${amber?'amber':''}">
+        <input type="checkbox" ${item.on?'checked':''} onchange="toggleSetupItem('${id}',${i})">
+        <span class="track"></span>
+      </label>
+      <div class="txt"><div class="t">${item.label}</div><div class="s">${item.sub}</div></div>
+    </div>`;
+  });
+}
+function toggleSetupItem(id,i){
+  const dataMap = {'setup-allowed':setupAllowed, 'setup-approval':setupApproval, 'notif-settings':notifSettings};
+  const data = dataMap[id];
+  data[i].on = !data[i].on;
+  showToast(data[i].on ? `"${data[i].label}" הופעל` : `"${data[i].label}" כובה`);
+}
+function renderSetupForbidden(){
+  const el = document.getElementById('setup-forbidden'); el.innerHTML = '';
+  setupForbidden.forEach(label => {
+    el.innerHTML += `<div class="setup-row deny">
+      <div class="deny-x">✕</div>
+      <div class="txt"><div class="t">${label}</div></div>
+    </div>`;
+  });
+}
+function renderSetupConnections(){
+  const el = document.getElementById('setup-connections'); el.innerHTML = '';
+  setupConnections.forEach((c,i) => {
+    el.innerHTML += `<div class="setup-conn-row">
+      <div class="conn-icon" style="background:${c.color}">${c.icon}</div>
+      <div class="main"><div class="cname">${c.name}</div></div>
+      <div class="status-pill ${c.connected?'status-on':'status-off'}" style="cursor:pointer;" onclick="toggleSetupConn(${i})">
+        <span class="dot"></span>${c.connected?'מחובר':'ממתין לחיבור'}
+      </div>
+    </div>`;
+  });
+}
+function toggleSetupConn(i){
+  setupConnections[i].connected = !setupConnections[i].connected;
+  renderSetupConnections();
+  showToast(setupConnections[i].connected ? `${setupConnections[i].name} חובר בהצלחה ✓` : `${setupConnections[i].name} נותק`);
+}
+
+
+/* ================= AI ACTIVITY CENTER ================= */
+const aiActivity = [
+  {time:"09:12", title:"AI ענה ללקוח דוד כהן לגבי מחיר התקנה.",
+   detail:[["סטטוס","נשלח אוטומטית"]], statusLabel:"נשלח אוטומטית", statusClass:"tag-ok", dot:"completed", filter:"completed"},
+  {time:"09:35", title:"AI זיהה לקוח לא מרוצה.",
+   detail:[["המלצה","צור קשר אישי"]], statusLabel:"ממתין לאישור", statusClass:"tag-hot", dot:"waiting", filter:"waiting"},
+  {time:"10:05", title:"AI הכין הצעת מחיר.",
+   detail:[["סכום","1,450 ₪"]], statusLabel:"ממתין לאישור", statusClass:"tag-hot", dot:"waiting", filter:"waiting"},
+  {time:"10:22", title:"AI קבע פגישה.",
+   detail:[["יום","יום ראשון 11:00"]], statusLabel:"אושר", statusClass:"tag-approved", dot:"approved", filter:"approved"},
+  {time:"11:14", title:"AI שלח תזכורת ללקוח.",
+   detail:[], statusLabel:"בוצע", statusClass:"tag-ok", dot:"completed", filter:"completed"},
+];
+let activityFilter = "all";
+function renderActivity(){
+  const el = document.getElementById('activity-list'); el.innerHTML = '';
+  const filtered = aiActivity.filter(a => activityFilter==='all' || a.filter===activityFilter);
+  filtered.forEach((a,i) => {
+    const detailHTML = a.detail.map(kv=>`<span class="kv">${kv[0]}: <b>${kv[1]}</b></span>`).join('');
+    el.innerHTML += `<div class="activity-row">
+      <div class="activity-time">${a.time}</div>
+      <div class="activity-line"><span class="activity-dot ${a.dot}"></span></div>
+      <div class="activity-main">
+        <div class="activity-title">${a.title}</div>
+        ${detailHTML ? `<div class="activity-detail">${detailHTML}</div>` : ''}
+      </div>
+      <div class="activity-status"><span class="tag ${a.statusClass}">${a.statusLabel}</span></div>
+    </div>`;
+  });
+  if(filtered.length===0){
+    el.innerHTML = '<div style="padding:30px 4px;color:var(--ink-faint);font-size:13px;text-align:center;">אין פעילות בקטגוריה זו</div>';
+  }
+}
+document.getElementById('activity-tabs').addEventListener('click', e=>{
+  const tab = e.target.closest('.tab');
+  if(!tab) return;
+  document.querySelectorAll('#activity-tabs .tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  activityFilter = tab.dataset.filter;
+  renderActivity();
+});
+
+function renderConnections(){
+  const el=document.getElementById('conn-list'); el.innerHTML='';
+  connections.forEach((c,i)=>{
+    el.innerHTML+=`<div class="conn-row">
+      <div class="conn-icon" style="background:${c.color}">${c.icon}</div>
+      <div class="main">
+        <div class="cname">${c.name}</div>
+        <div class="cdesc">${c.connected? 'מחובר · סונכרן '+c.syncedAt : c.desc}</div>
+      </div>
+      <div class="status-pill ${c.connected?'status-on':'status-off'}">
+        <span class="dot"></span>${c.connected?'מחובר':'לא מחובר'}
+      </div>
+      <button class="btn ${c.connected?'btn-ghost':'btn-primary'} btn-sm" onclick="toggleConnection(${i})">
+        ${c.connected?'ניתוק':'חיבור'}
+      </button>
+    </div>`;
+  });
+}
+function toggleConnection(i){
+  connections[i].connected = !connections[i].connected;
+  connections[i].syncedAt = connections[i].connected ? 'הרגע' : null;
+  renderConnections();
+  showToast(connections[i].connected ? `${connections[i].name} חובר בהצלחה ✓` : `${connections[i].name} נותק`);
+}
+
+/* ================= SETTINGS RENDER ================= */
+function renderHours(){
+  const el=document.getElementById('hours-list'); el.innerHTML='';
+  hours.forEach((h,i)=>{
+    el.innerHTML+=`<div class="hours-row">
+      <div class="day">יום ${h.day}</div>
+      ${h.closed? '<span style="color:var(--ink-faint);font-size:13px;">סגור</span>' :
+        `<input type="time" value="${h.from}"><span class="to">עד</span><input type="time" value="${h.to}">`}
+      <label class="closed-toggle">
+        <input type="checkbox" ${h.closed?'checked':''} onchange="toggleClosed(${i})"> סגור ביום זה
+      </label>
+    </div>`;
+  });
+}
+function toggleClosed(i){ hours[i].closed = !hours[i].closed; renderHours(); }
+
+function renderServices(){
+  const el=document.getElementById('services-list'); el.innerHTML='';
+  services.forEach((s,i)=>{
+    el.innerHTML+=`<div class="chip">${s}<span class="x" onclick="removeService(${i})">✕</span></div>`;
+  });
+}
+function addService(){
+  const input=document.getElementById('new-service-input');
+  const v=input.value.trim();
+  if(!v) return;
+  services.push(v);
+  input.value='';
+  renderServices();
+}
+function removeService(i){ services.splice(i,1); renderServices(); }
+function saveSettings(){ showToast('השינויים נשמרו בהצלחה ✓'); }
+
+/* ---- Settings: notifications, AI mode, autonomy, team ---- */
+let notifSettings = [
+  {label:"התראות וואטסאפ", sub:"כשמתקבלת הודעה חדשה מלקוח", on:true},
+  {label:"התראות אימייל", sub:"סיכום יומי ועדכונים חשובים", on:true},
+  {label:"התראות Push", sub:"התראות מיידיות לנייד", on:false},
+];
+function renderNotifSettings(){
+  renderSetupToggles('notif-settings', notifSettings, false);
+}
+let aiMode = "approval";
+function renderAiMode(){
+  const el = document.getElementById('ai-mode-row'); el.innerHTML = '';
+  const modes = [
+    {id:"auto", t:"מצב אוטומטי מלא", s:"ה־AI שולח תשובות ללא צורך באישורך, גם בפעולות רגישות"},
+    {id:"approval", t:"נדרש אישור", s:"ה־AI מכין הכל, אך ממתין לאישורך בפעולות רגישות"},
+  ];
+  modes.forEach(m => {
+    el.innerHTML += `<div class="ai-mode-card ${aiMode===m.id?'selected':''}" onclick="setAiMode('${m.id}')">
+      <div class="t"><span class="radio"></span>${m.t}</div>
+      <div class="s">${m.s}</div>
+    </div>`;
+  });
+}
+function setAiMode(id){ aiMode = id; renderAiMode(); showToast('מצב ה־AI עודכן'); }
+
+let autonomyLevel = "medium";
+function renderAutonomy(){
+  const el = document.getElementById('autonomy-segmented'); el.innerHTML = '';
+  const levels = [["low","נמוכה"],["medium","בינונית"],["high","גבוהה"]];
+  levels.forEach(([id,label]) => {
+    el.innerHTML += `<div class="seg ${autonomyLevel===id?'selected':''}" onclick="setAutonomy('${id}')">${label}</div>`;
+  });
+}
+function setAutonomy(id){ autonomyLevel = id; renderAutonomy(); showToast('רמת העצמאות עודכנה'); }
+
+const teamMembers = [
+  {name:"יהודה כהן", email:"yehuda@my-business.co.il", role:"בעל העסק", roleClass:"tag-ok"},
+  {name:"מיכל כהן", email:"michal@my-business.co.il", role:"עובדת — גישה מלאה", roleClass:"tag-info"},
+];
+function renderTeam(){
+  const el = document.getElementById('team-list'); el.innerHTML = '';
+  teamMembers.forEach(m => {
+    el.innerHTML += `<div class="team-row">
+      <div class="avatar" style="background:${avatarColor(m.name)}">${initials(m.name)}</div>
+      <div class="main"><div class="n">${m.name}</div><div class="e">${m.email}</div></div>
+      <span class="tag ${m.roleClass}">${m.role}</span>
+    </div>`;
+  });
+}
+
+/* ================= HISTORY RENDER ================= */
+let historyFilter='all';
+function renderHistory(){
+  const el=document.getElementById('history-list'); el.innerHTML='';
+  const filtered = history.filter(h=> historyFilter==='all' || h.type===historyFilter);
+  let lastDay=null;
+  filtered.forEach(h=>{
+    if(h.day!==lastDay){
+      el.innerHTML+=`<div class="hist-day-label">${h.day}</div>`;
+      lastDay=h.day;
+    }
+    el.innerHTML+=`<div class="hist-row">
+      <div class="hist-icon" style="background:${h.color}22">${h.icon}</div>
+      <div class="h-main"><div class="h-title">${h.title}</div></div>
+      <div class="h-time">${h.time}</div>
+    </div>`;
+  });
+  if(filtered.length===0){
+    el.innerHTML = '<div style="padding:30px 4px;color:var(--ink-faint);font-size:13px;text-align:center;">אין רשומות בקטגוריה זו</div>';
+  }
+}
+document.getElementById('hist-tabs').addEventListener('click', e=>{
+  const tab = e.target.closest('.tab');
+  if(!tab) return;
+  document.querySelectorAll('#hist-tabs .tab').forEach(t=>t.classList.remove('active'));
+  tab.classList.add('active');
+  historyFilter = tab.dataset.tab;
+  renderHistory();
+});
+
+/* ================= LIVE DEMO: CUSTOMER CONVERSATIONS ================= */
+const demoConversations = [
+  {
+    id: 1, name: "David Cohen", channel: "whatsapp", channelColor: "#25D366",
+    time: "10:24 AM", status: "Open", statusClass: "tag-wait",
+    snippet: "Do you have anything available this week?",
+    messages: [
+      { from: "in", text: "Hi, do you have anything available this week?", time: "10:12 AM" },
+      { from: "out", text: "Hi David! Yes, we have openings Wednesday and Thursday.", time: "10:18 AM" },
+      { from: "in", text: "Wednesday works great, what time?", time: "10:24 AM" },
+    ],
+    summary: [
+      "Existing customer requesting a mid-week appointment.",
+      "Prefers Wednesday over Thursday.",
+      "No time confirmed yet.",
+      "Recommended follow-up today to lock in a time.",
+    ],
+    suggestedReply: "Hi David, Wednesday works well! We have openings at 10:00, 1:00 and 4:00 PM — which works best for you?",
+  },
+  {
+    id: 2, name: "Sarah's Bakery", channel: "email", channelColor: "#3E6CA8",
+    time: "9:15 AM", status: "Waiting", statusClass: "tag-wait",
+    snippet: "Can you send me the price list?",
+    messages: [
+      { from: "in", text: "Hello, can you send me your updated price list?", time: "9:02 AM" },
+      { from: "out", text: "Of course! Attaching our latest price list now.", time: "9:10 AM" },
+      { from: "in", text: "Thank you, I'll review and get back to you.", time: "9:15 AM" },
+    ],
+    summary: [
+      "New business inquiry requesting pricing.",
+      "Comparing costs before deciding.",
+      "No commitment made yet.",
+      "Recommended follow-up in two days if no response.",
+    ],
+    suggestedReply: "Hi Sarah, just checking in — happy to answer any questions on the price list or put together a custom quote for your bakery.",
+  },
+  {
+    id: 3, name: "Green Garden", channel: "whatsapp", channelColor: "#25D366",
+    time: "Yesterday", status: "Resolved", statusClass: "tag-ok",
+    snippet: "Thanks, that works for us!",
+    messages: [
+      { from: "in", text: "Can we move our order to next Monday?", time: "Yesterday 3:40 PM" },
+      { from: "out", text: "Sure, we've updated it to Monday.", time: "Yesterday 3:52 PM" },
+      { from: "in", text: "Thanks, that works for us!", time: "Yesterday 3:53 PM" },
+    ],
+    summary: [
+      "Existing customer rescheduled an order.",
+      "New delivery date confirmed for Monday.",
+      "Customer confirmed the change works for them.",
+      "No further action needed.",
+    ],
+    suggestedReply: "You're welcome! We've got you confirmed for Monday — let us know if anything else changes.",
+  },
+  {
+    id: 4, name: "Michael Levi", channel: "email", channelColor: "#3E6CA8",
+    time: "Yesterday", status: "Waiting", statusClass: "tag-wait",
+    snippet: "What's the delivery time for bulk orders?",
+    messages: [
+      { from: "in", text: "Hi, what's the delivery time for bulk orders over 50 units?", time: "Yesterday 11:05 AM" },
+      { from: "out", text: "Bulk orders typically ship within 5–7 business days.", time: "Yesterday 11:30 AM" },
+      { from: "in", text: "Good to know, I might place an order next week.", time: "Yesterday 11:34 AM" },
+    ],
+    summary: [
+      "Potential bulk buyer asking about delivery timelines.",
+      "Considering an order of 50+ units.",
+      "Has not committed yet.",
+      "Recommended follow-up early next week.",
+    ],
+    suggestedReply: "Hi Michael, happy to help whenever you're ready — I can also hold current pricing for you if you place the order this week.",
+  },
+  {
+    id: 5, name: "Elite Fitness", channel: "whatsapp", channelColor: "#25D366",
+    time: "2 days ago", status: "Open", statusClass: "tag-hot",
+    snippet: "We're interested in the premium package",
+    messages: [
+      { from: "in", text: "Hi, we saw your services online. Can you tell us more about pricing?", time: "2 days ago" },
+      { from: "out", text: "Hi! Happy to help — we offer three packages depending on your needs.", time: "2 days ago" },
+      { from: "in", text: "What's the delivery time once we sign up?", time: "2 days ago" },
+      { from: "out", text: "Setup usually takes 2-3 business days after signup.", time: "2 days ago" },
+      { from: "in", text: "Great, we're actually interested in the premium package.", time: "2 days ago" },
+    ],
+    summary: [
+      "Customer requested pricing.",
+      "Asked about delivery time.",
+      "Interested in premium package.",
+      "Recommended follow-up tomorrow.",
+    ],
+    suggestedReply: "Hi! Thanks for your interest in our premium package. I'd be happy to set up a quick call tomorrow to walk you through the details — does 10 AM work for you?",
+  },
+];
+
+let demoActiveId = null;
+
+function openDemo(){
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('demo-screen').classList.add('active');
+  renderDemoList();
+  openDemoConversation(5);
+  window.scrollTo(0,0);
+}
+function closeDemo(){
+  document.getElementById('demo-screen').classList.remove('active');
+  document.getElementById('login-screen').style.display = 'flex';
+  window.scrollTo(0,0);
+}
+
+function renderDemoList(){
+  const el = document.getElementById('demo-conv-list'); el.innerHTML = '';
+  demoConversations.forEach(c => {
+    el.innerHTML += `<div class="conv-item ${demoActiveId===c.id?'active':''}" onclick="openDemoConversation(${c.id})">
+      <div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
+      <div class="main">
+        <div class="top-line">
+          <span class="cname">${c.name}</span>
+          <span class="ctime">${c.time}</span>
+        </div>
+        <div class="snippet">
+          <span class="channel-dot" style="display:inline-block;background:${c.channelColor}"></span>
+          ${c.channel === 'whatsapp' ? 'WhatsApp' : 'Email'} · ${c.snippet}
+        </div>
+      </div>
+    </div>`;
+  });
+}
+
+function openDemoConversation(id){
+  demoActiveId = id;
+  renderDemoList();
+  const c = demoConversations.find(x => x.id === id);
+  const el = document.getElementById('demo-conv-detail');
+  el.innerHTML = `
+    <div class="conv-detail-head">
+      <div class="avatar" style="background:${avatarColor(c.name)}">${initials(c.name)}</div>
+      <div>
+        <div class="name">${c.name}</div>
+        <div class="meta">${c.channel === 'whatsapp' ? 'WhatsApp' : 'Email'} &nbsp;·&nbsp; <span class="tag ${c.statusClass}">${c.status}</span></div>
+      </div>
+    </div>
+    <div class="conv-messages" id="demo-messages-${c.id}"></div>
+    <div class="ai-summary-box">
+      <b>✨ AI Summary</b>
+      <ul>${c.summary.map(s => `<li>${s}</li>`).join('')}</ul>
+    </div>
+    <div class="conv-actions">
+      <button class="btn btn-primary btn-sm" id="demo-reply-btn-${c.id}" onclick="generateDemoReply(${c.id})">Generate AI Reply</button>
+    </div>
+    <div id="demo-reply-slot-${c.id}"></div>
+  `;
+  const msgsEl = document.getElementById(`demo-messages-${c.id}`);
+  c.messages.forEach(m => {
+    msgsEl.innerHTML += `<div class="msg ${m.from==='in'?'msg-in':'msg-out'}">${m.text}<span class="msg-time">${m.time}</span></div>`;
+  });
+  msgsEl.scrollTop = msgsEl.scrollHeight;
+
+  if (window.innerWidth <= 980){
+    document.getElementById('demo-conv-list').classList.add('mobile-hide');
+    el.classList.remove('mobile-hide');
+    const backBtn = document.createElement('div');
+    backBtn.className = 'btn btn-ghost btn-sm';
+    backBtn.style.cssText = 'margin:12px 20px 0;width:fit-content;';
+    backBtn.textContent = '← All conversations';
+    backBtn.onclick = () => {
+      document.getElementById('demo-conv-list').classList.remove('mobile-hide');
+      el.classList.add('mobile-hide');
+    };
+    el.prepend(backBtn);
+  }
+}
+
+function generateDemoReply(id){
+  const c = demoConversations.find(x => x.id === id);
+  const btn = document.getElementById(`demo-reply-btn-${id}`);
+  const slot = document.getElementById(`demo-reply-slot-${id}`);
+  if (!btn || !slot) return;
+  btn.disabled = true;
+  slot.innerHTML = `<div class="ai-generating" style="margin:12px 20px 0;">Generating reply<span class="dot-flash"><span></span><span></span><span></span></span></div>`;
+  setTimeout(() => {
+    slot.innerHTML = `<div class="ai-reply-box">
+      <span class="lbl">✨ Suggested reply</span>
+      ${c.suggestedReply}
+    </div>`;
+    btn.textContent = 'Regenerate reply';
+    btn.disabled = false;
+  }, 900);
+}
+
+
+initLogin();
+renderTodayOverview();
+renderAIActivityToday();
+renderPendingApprovals();
+renderAttention();
+renderCustomersDirectory();
+renderTasks();
+renderConvList();
+updateNavBadge();
+renderSetupToggles('setup-allowed', setupAllowed, false);
+renderSetupToggles('setup-approval', setupApproval, true);
+renderSetupForbidden();
+renderSetupConnections();
+renderRules();
+renderActivity();
+renderConnections();
+renderHours();
+renderServices();
+renderNotifSettings();
+renderAiMode();
+renderAutonomy();
+renderTeam();
+renderHistory();
+</script>
+</body>
+</html>
